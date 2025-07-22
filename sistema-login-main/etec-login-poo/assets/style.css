@@ -1,0 +1,83 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Corpo da página */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+}
+
+/* Formulário */
+form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Título */
+form h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Labels e Inputs */
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+form input {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+form input:focus {
+    border-color: #5c9ded;
+    outline: none;
+}
+
+/* Botão */
+form button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #5c9ded;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #407ac4;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    form {
+        padding: 1.5rem;
+    }
+
+    form h1 {
+        font-size: 1.5rem;
+    }
+}
