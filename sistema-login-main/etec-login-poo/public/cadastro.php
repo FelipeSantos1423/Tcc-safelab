@@ -5,20 +5,32 @@
     <title>Cadastro</title>
 </head>
 <body>
-    <form action="process_cadastro.php" method="post">
-        <h1>Cadastro</h1>
-        <label for="nomeC">Nome Completo:</label>
-        <input type="text" name="nomeC" id="nomeC" required>
-        <br>
-        <label for="email">E-mail:</label>
-        <input type="email" name="email" id="email" required>
-        <br>
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" required>
-        <br>
-        <button type="submit">Cadastrar</button>
-        <br>
-        <p>já possui cadastro? <a href="login.php">Logar</a> </p>
-    </form>
+   <?php
+require_once '../models/UsuarioDAO.php';
+$usuarioDAO = new UsuarioDAO();
+$tipos = $usuarioDAO->listarTiposUsuarios();
+?>
+
+<form action="process_cadastro.php" method="post">
+    <label>Nome Completo:</label><br>
+    <input type="text" name="nomeC" required><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br>
+
+    <label>Senha:</label><br>
+    <input type="password" name="senha" required><br>
+
+    <label>Tipo de Usuário:</label><br>
+    <select name="tipo_usuario_id" required>
+        <option value="">Selecione</option>
+        <?php foreach ($tipos as $tipo): ?>
+            <option value="<?= htmlspecialchars($tipo['id']) ?>"><?= htmlspecialchars($tipo['tipo']) ?></option>
+        <?php endforeach; ?>
+    </select><br><br>
+
+    <button type="submit">Cadastrar</button>
+</form>
+
 </body>
 </html>

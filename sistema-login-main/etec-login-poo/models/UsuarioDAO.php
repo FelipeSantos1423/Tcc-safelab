@@ -1,58 +1,102 @@
 <?php
-// Importa as classes necessárias
-require_once 'Usuario.php';      // Classe do modelo Usuario
-require_once '../config/Database.php'; // Classe de conexão com o banco
+require_once 'Usuario.php';
+require_once '../config/Database.php';
 
 class UsuarioDAO {
-    private $conn; // Armazena a conexão PDO
+    private $conn;
 
-    // Construtor: inicializa a conexão com o banco
     public function __construct() {
-        $db = new Database(); // Cria uma instância da classe Database
-        $this->conn = $db->getConnection(); // Obtém a conexão PDO
+        $db = new Database();
+        $this->conn = $db->getConnection();
     }
 
-    // Busca um usuário pelo email no banco de dados
+    // Busca um usuário pelo email
     public function buscarPorEmail($email) {
-        $query = "SELECT * FROM usuario WHERE email = :email"; // Query SQL com parâmetro nomeado
-        $stmt = $this->conn->prepare($query); // Prepara a consulta para evitar SQL Injection
-        $stmt->bindParam(':email', $email); // Vincula o parâmetro :email ao valor recebido
-        $stmt->execute(); // Executa a consulta
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna o resultado como um array associativo
+        $query = "SELECT * FROM tbl_usuario WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Valida o login do usuário
+    // Valida login: retorna objeto Usuario ou null
     public function validarLogin($email, $senha) {
-        $usuario = $this->buscarPorEmail($email); // Busca o usuário pelo email
-        // Verifica se o usuário existe e se a senha fornecida corresponde ao hash armazenado
-        if ($usuario && password_verify($senha, $usuario['senha_hash'])) {
-            return new Usuario($usuario); // Retorna um objeto Usuario preenchido com os dados
+        $usuarioData = $this->buscarPorEmail($email);
+        if ($usuarioData && password_verify($senha, $usuarioData['senha_hash'])) {
+            return new Usuario($usuarioData);
         }
-        return null; // Retorna null se as credenciais forem inválidas
+        return null;
     }
 
-    public function criarUsuario(Usuario $usuario) {
-        $query = "INSERT INTO usuario (nomeC, email, senha_hash) 
-        VALUES (:nomeC, :email, :senha_hash)";
-        
-        try {
-            $stmt = $this->conn->prepare($query);
-            // Vincula os parâmetros do objeto Usuario
-            $stmt->bindParam(':nomeC', $usuario->getNomeC()); 
-            $stmt->bindParam(':email', $usuario->getEmail());
-            $stmt->bindParam(':senha_hash', $usuario->getSenhaHash());
-            
-            // Executa a inserção
-            if ($stmt->execute()) {
-                // Retorna o ID gerado pelo banco
-                return $this->conn->lastInsertId();
-            }
-            return false;
-        } catch (PDOException $e) {
-            // Em caso de erro, registra o erro e retorna false
-            error_log("Erro ao inserir usuário: " . $e->getMessage());
-            return false;
+    // Retorna todos os tipos de usuário da tabela tipo_usuario
+public function listarTiposUsuarios() {
+    $query = "SELECT id, tipo FROM tbl_tipo_usuario ORDER BY tipo";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+    // Cria um novo usuário no banco
+   public function criarUsuario(Usuario $usuario) {
+    $query = "INSERT INTO tbl_usuario (nomeC, email, senha_hash, tbl_tipo_usuario_id) 
+              VALUES (:nomeC, :email, :senha_hash, :tbl_tipo_usuario_id)";
+    try {
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindValue(':nomeC', $usuario->getNomeC());
+        $stmt->bindValue(':email', $usuario->getEmail());
+        $stmt->bindValue(':senha_hash', $usuario->getSenhaHash());
+        $stmt->bindValue(':tbl_tipo_usuario_id', $usuario->getTipo(), PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
         }
+        return false;
+    } catch (PDOException $e) {
+        throw new Exception("Erro ao inserir usuário: " . $e->getMessage());
     }
 }
-?>
+
+
+    // Busca usuário pelo ID e retorna objeto Usuario ou null
+    public function buscarPorId($id) {
+        $query = "SELECT * FROM tbl_usuario WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            return new Usuario($data);
+        }
+        return null;
+    }
+
+    // Atualiza só o email do usuário pelo ID
+    public function atualizarEmail($id, $email) {
+        $query = "UPDATE tbl_usuario SET email = :email WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':email', $email);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    // Atualiza email e senha do usuário pelo ID
+    public function atualizarEmailSenha($id, $email, $senha) {
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+        $query = "UPDATE tbl_usuario SET email = :email, senha_hash = :senha_hash WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':email', $email);
+        $stmt->bindValue(':senha_hash', $senha_hash);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    // Exclui usuário pelo ID
+    public function excluir($id) {
+        $query = "DELETE FROM tbl_usuario WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+}

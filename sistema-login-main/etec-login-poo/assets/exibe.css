@@ -3,10 +3,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body {
-  display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     background: linear-gradient(135deg, #74ebd5, #acb6e5);
 }
 
@@ -25,12 +21,11 @@ a:hover {
     background-color: #2980b9;
 }
 
-.dados{
-    text-align: center;
-    background-color: #f1f1f1;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    width: 100%;
-    max-width: 400px;
+a:first-of-type {
+    background-color: #e74c3c;
 }
+
+a:first-of-type:hover {
+    background-color: #c0392b;
+}
+

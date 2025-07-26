@@ -1,3 +1,9 @@
+<?php
+session_start();
+$msg = $_SESSION['msg_sucesso'] ?? null;
+unset($_SESSION['msg_sucesso']);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -43,6 +49,13 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
+
+<?php if ($msg): ?>
+<script>
+    alert("<?= addslashes($msg) ?>");
+</script>
+<?php endif; ?>
+
     <!-- Header -->
     <header class="bg-blue-700 text-white sticky top-0 z-50">
         <div class="container mx-auto px-4 py-6">
