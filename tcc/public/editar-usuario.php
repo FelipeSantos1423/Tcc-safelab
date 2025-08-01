@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once __DIR__ . '/../models/Usuario.php';
-require_once __DIR__ . '/../models/UsuarioDAO.php';
+require_once __DIR__ . '/.../models/Usuario.php';
+require_once __DIR__ . '/.../models/UsuarioDAO.php';
 
 if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
     header('Location: login.php');
