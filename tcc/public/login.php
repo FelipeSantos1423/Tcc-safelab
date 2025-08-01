@@ -5,7 +5,7 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="process_login.php" method="POST">
+    <form action="process/process_login.php" method="POST">
         <h1>Login</h1>
         <label>Email:</label>
         <input type="email" name="email" required>

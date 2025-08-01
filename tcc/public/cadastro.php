@@ -11,7 +11,7 @@ $usuarioDAO = new UsuarioDAO();
 $tipos = $usuarioDAO->listarTiposUsuarios();
 ?>
 
-<form action="process_cadastro.php" method="post">
+<form action="process/process_cadastro.php" method="post">
     <label>Nome Completo:</label><br>
     <input type="text" name="nomeC" required><br>
 

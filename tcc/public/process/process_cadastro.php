@@ -1,6 +1,6 @@
 <?php
-require_once '../models/Usuario.php';
-require_once '../models/UsuarioDAO.php';
+require_once '.../models/Usuario.php';
+require_once '.../models/UsuarioDAO.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nomeC = trim($_POST['nomeC'] ?? '');
