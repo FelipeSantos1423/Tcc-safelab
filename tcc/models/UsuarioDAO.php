@@ -1,6 +1,6 @@
 <?php
 require_once 'Usuario.php';
-require_once '../config/Database.php';
+require_once(__DIR__ . '/../config/Database.php');
 
 class UsuarioDAO {
     private $conn;
@@ -29,7 +29,7 @@ class UsuarioDAO {
     }
 
     // Retorna todos os tipos de usuário da tabela tipo_usuario
-public function listarTiposUsuarios() {
+public function listarTiposusuario() {
     $query = "SELECT id, tipo FROM tbl_tipo_usuario ORDER BY tipo";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
@@ -72,31 +72,33 @@ public function listarTiposUsuarios() {
         return null;
     }
 
-    // Atualiza só o email do usuário pelo ID
-    public function atualizarEmail($id, $email) {
-        $query = "UPDATE tbl_usuario SET email = :email WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
+ public function atualizarEmail($id, $email) {
+    $query = "UPDATE tbl_usuario SET email = :email WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
 
-    // Atualiza email e senha do usuário pelo ID
-    public function atualizarEmailSenha($id, $email, $senha) {
-        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-        $query = "UPDATE tbl_usuario SET email = :email, senha_hash = :senha_hash WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':senha_hash', $senha_hash);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
+public function atualizarNomeEmail($id, $nomeC, $email) {
+    $query = "UPDATE tbl_usuario SET nomeC = :nomeC, email = :email WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':nomeC', $nomeC);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
 
-    // Exclui usuário pelo ID
-    public function excluir($id) {
-        $query = "DELETE FROM tbl_usuario WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
+// Atualiza email e senha e nome
+public function atualizarEmailSenha($id, $nomeC, $email, $senha) {
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+    $query = "UPDATE tbl_usuario SET nomeC = :nomeC, email = :email, senha_hash = :senha_hash WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':nomeC', $nomeC);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':senha_hash', $senha_hash);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+
 }

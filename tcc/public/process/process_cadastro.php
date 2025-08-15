@@ -1,12 +1,14 @@
 <?php
-require_once '.../models/Usuario.php';
-require_once '.../models/UsuarioDAO.php';
+    
+require_once(__DIR__ . '/../../models/UsuarioDAO.php');
+require_once(__DIR__ . '/../../utils/Sanitizacao.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nomeC = trim($_POST['nomeC'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $senha = $_POST['senha'] ?? '';
-    $tipo_usuario_id = $_POST['tipo_usuario_id'] ?? '';
+// Sanitiza entradas
+$nomeC = Sanitizacao::sanitizar($_POST['nomeC']);
+$email = Sanitizacao::sanitizar($_POST['email']);
+$senha = Sanitizacao::sanitizar($_POST['senha']);
+$tipo_usuario_id = $_POST['tipo_usuario_id'] ?? '';
 
     // Validações simples
     if (empty($nomeC) || empty($email) || empty($senha) || empty($tipo_usuario_id)) {
@@ -50,7 +52,7 @@ session_start(); // Inicia a sessão no começo do arquivo
 
 if ($id) {  // Se cadastro deu certo
     $_SESSION['msg_sucesso'] = "Cadastro realizado com sucesso!";
-    header("Location: index.php"); // Substitua pelo nome da página para onde quer ir
+    header("Location: ../index.php"); // Substitua pelo nome da página para onde quer ir
     exit;
 } else {
     echo "Erro ao cadastrar usuário.";

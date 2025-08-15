@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/login_cadastro.css">
     <title>Login</title>
 </head>
 <body>
@@ -14,7 +14,6 @@
         <input type="password" name="senha" required>
         <br>
         <button type="submit">Entrar</button>
-        <p>Não possui cadastro? <a href="cadastro.php">Cadastre-se</a> </p>
     </form>
 </body>
 </html>
