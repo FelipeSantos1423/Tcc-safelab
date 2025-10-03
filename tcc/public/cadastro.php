@@ -5,7 +5,7 @@
     <title>Cadastro</title>
 </head>
 <body>
-    <form action="process/process_cadastro.php" method="post">
+    <form action="../process/process_cadastro.php" method="post">
         <h1>Cadastro</h1>
         <label for="nomeC">Nome Completo:</label>
         <input type="text" name="nomeC" id="nomeC" required>
@@ -18,7 +18,7 @@
         <br>
         <button type="submit">Cadastrar</button>
         <br>
-        <p>já possui cadastro? <a href="login.php">Logar</a> </p>
+        <p>já possui cadastro? <a href="public/login.php">Logar</a> </p>
     </form>
 </body>
 </html>

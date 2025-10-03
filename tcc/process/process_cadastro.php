@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../../models/UsuarioDAO.php');
-require_once(__DIR__ . '/../../utils/Sanitizacao.php');
+require_once(__DIR__ . '/../models/UsuarioDAO.php');
+require_once(__DIR__ . '/../utils/Sanitizacao.php');
 
 // Sanitiza entradas
 $nomeC = Sanitizacao::sanitizar($_POST['nomeC']);

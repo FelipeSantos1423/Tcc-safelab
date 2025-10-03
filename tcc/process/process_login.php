@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once(__DIR__ . '/../../models/UsuarioDAO.php');
-require_once(__DIR__ . '/../../utils/Sanitizacao.php');
+require_once(__DIR__ . '/../models/UsuarioDAO.php');
+require_once(__DIR__ . '/../utils/Sanitizacao.php');
 
 // Sanitiza as entradas
 $nomeC = Sanitizacao::sanitizar($_POST['nomeC']);
@@ -16,7 +16,7 @@ $usuario = $usuarioDAO->validarLogin($email, $senha);
 if ($usuario) {
     $_SESSION['logado'] = true;
     $_SESSION['usuario'] = serialize($usuario);
-    header('Location: ../exibe-dados.php'); 
+    header('Location: ../index.php'); 
     exit;
 } else {
     echo "Email ou senha incorretos.";
