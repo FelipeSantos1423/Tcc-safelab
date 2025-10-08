@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "db_safelab";
-
-// Conectar
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Checar conexão
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
-}
+require_once(__DIR__ . '/config/Database.php');
 
 // Pegar dados do ESP32 (JSON)
 $data = json_decode(file_get_contents("php://input"), true);
