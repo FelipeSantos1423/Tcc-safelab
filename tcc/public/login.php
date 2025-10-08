@@ -49,7 +49,7 @@
     <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div class="max-w-md w-full bg-white dark:bg-background-dark rounded-xl shadow-lg p-8 space-y-6 border border-gray-200 dark:border-gray-700">
         <div class="text-center">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Bem-vindo Administrador</h2>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Bem-vindo</h2>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Faça login na sua conta</p>
         </div>
         
