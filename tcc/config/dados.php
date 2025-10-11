@@ -1,14 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "db_safelab";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
-}
+require_once(__DIR__ . '/config/Database.php');
 
 $result = $conn->query("SELECT * FROM db_safelab.sensores ORDER BY data_registro DESC LIMIT 10");
 
