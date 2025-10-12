@@ -16,7 +16,7 @@ $usuario = $usuarioDAO->validarLogin($email, $senha);
 if ($usuario) {
     $_SESSION['logado'] = true;
     $_SESSION['usuario'] = serialize($usuario);
-    header('Location: ../index.php'); 
+    header('Location: ../adm/adm.php'); 
     exit;
 } else {
     echo "Email ou senha incorretos.";
