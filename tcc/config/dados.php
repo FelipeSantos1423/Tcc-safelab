@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . '/config/Database.php');
 
-$result = $conn->query("SELECT * FROM db_safelab.sensores ORDER BY data_registro DESC LIMIT 10");
+$result = $conn->query("SELECT * FROM safelab_db.sensores ORDER BY data_registro DESC LIMIT 10");
 
 $dados = [];
 while ($row = $result->fetch_assoc()) {

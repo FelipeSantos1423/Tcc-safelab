@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Login</title>
+  <title>Cadastrar Administrador</title>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet"/>
@@ -50,11 +50,18 @@
       <div class="max-w-md w-full bg-white dark:bg-background-dark rounded-xl shadow-lg p-8 space-y-6 border border-gray-200 dark:border-gray-700">
         <div class="text-center">
           <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Bem-vindo</h2>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Faça login na sua conta</p>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Cadastre um novo Administrador</p>
         </div>
         
         <!-- Aqui está a funcionalidade -->
-        <form action="../process/usuario/process_login.php" method="POST" class="space-y-6">
+        <form action="../../process/usuario/process_cadastro.php" method="POST" class="space-y-6">
+           <div>
+            <label for="nomeC" class="text-sm font-medium text-gray-700 dark:text-gray-300">Nome Completo</label>
+            <input type="nomeC" id="nomeC" name="nomeC" required
+              placeholder="Seu nome completo"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-primary focus:border-primary focus:outline-none">
+          </div>
+
           <div>
             <label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
             <input type="email" id="email" name="email" required
@@ -72,7 +79,7 @@
           <div>
             <button type="submit"
               class="w-full flex justify-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-              Entrar
+              Cadastrar
             </button>
           </div>
         </form>

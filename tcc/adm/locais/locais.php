@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-  <?php include "includes/sidebar.php"; ?>
+  <?php include "../includes/sidebar.php"; ?>
 
   <div class="main-content">
     <h2>Locais Cadastrados</h2>

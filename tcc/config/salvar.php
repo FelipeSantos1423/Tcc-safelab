@@ -9,7 +9,7 @@ $umid = $data["umidade"];
 $luz = $data["luz"];
 $ruido = $data["ruido"];
 
-$sql = "INSERT INTO db_safelab.sensores (temperatura, umidade, luz, ruido)
+$sql = "INSERT INTO safelab_db.sensores (temperatura, umidade, luz, ruido)
         VALUES ('$temp', '$umid', '$luz', '$ruido')";
 
 if ($conn->query($sql) === TRUE) {

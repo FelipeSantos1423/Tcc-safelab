@@ -1,9 +1,21 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../Models/Usuario/Usuario.php';
+
+if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
+    header('Location: /tcc-safelab/tcc/public/login.php');
+    exit;
+}
+
+$usuario = unserialize($_SESSION['usuario']);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editar Usuário</title>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet"/>
@@ -49,30 +61,36 @@
     <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div class="max-w-md w-full bg-white dark:bg-background-dark rounded-xl shadow-lg p-8 space-y-6 border border-gray-200 dark:border-gray-700">
         <div class="text-center">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Bem-vindo</h2>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Faça login na sua conta</p>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Editar Usuário</h2>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Atualize suas informações abaixo</p>
         </div>
-        
-        <!-- Aqui está a funcionalidade -->
-        <form action="../process/usuario/process_login.php" method="POST" class="space-y-6">
+
+        <!-- Formulário de edição -->
+        <form method="post" action="../../process/usuario/process_editar.php" class="space-y-6">
+          <input type="hidden" name="id" value="<?= $usuario->getId() ?>">
+
           <div>
-            <label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
-            <input type="email" id="email" name="email" required
-              placeholder="seuemail@email.com"
+            <label for="nomeC" class="text-sm font-medium text-gray-700 dark:text-gray-300">Nome Completo</label>
+            <input type="text" name="nomeC" required value="<?= htmlspecialchars($usuario->getNomeC()) ?>"
               class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-primary focus:border-primary focus:outline-none">
           </div>
 
           <div>
-            <label for="senha" class="text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
-            <input type="password" id="senha" name="senha" required
-              placeholder="Sua senha"
+            <label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
+            <input type="email" name="email" required value="<?= htmlspecialchars($usuario->getEmail()) ?>"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-primary focus:border-primary focus:outline-none">
+          </div>
+
+          <div>
+            <label for="senha" class="text-sm font-medium text-gray-700 dark:text-gray-300">Nova Senha (deixe vazio para manter a atual)</label>
+            <input type="password" name="senha"
               class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-primary focus:border-primary focus:outline-none">
           </div>
 
           <div>
             <button type="submit"
               class="w-full flex justify-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-              Entrar
+              Atualizar
             </button>
           </div>
         </form>

@@ -54,7 +54,7 @@
 </head>
 <body>
 
-  <?php include "includes/sidebar.php"; ?>
+  <?php include "../includes/sidebar.php"; ?>
 
   <div class="main-content">
     <h2 class="mb-4">Dashboard de Monitoramento</h2>

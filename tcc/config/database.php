@@ -4,9 +4,9 @@
 class Database {
     // Configurações do banco de dados (privadas para segurança)
     private $host = 'localhost';        // Endereço do servidor do banco de dados
-    private $db_name = 'db_safelab'; // Nome do banco de dados a ser utilizado
+    private $db_name = 'safelab_db'; // Nome do banco de dados a ser utilizado
     private $username = 'root';         // Usuário do banco de dados (padrão do MySQL)
-    private $password = '&tec77@info!';         // Senha do usuário (padrão em alguns ambientes de desenvolvimento)
+    private $password = 'root';         // Senha do usuário (padrão em alguns ambientes de desenvolvimento)
     private $conn;                      // Variável que armazenará a conexão PDO
 
     // Método público para obter a conexão com o banco de dados

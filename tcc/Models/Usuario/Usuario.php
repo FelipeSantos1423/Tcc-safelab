@@ -5,7 +5,7 @@ class Usuario {
     private $nomeC;
     private $email;
     private $senha_hash;
-    private $created_at;
+    private $criado_em;
 
     public function __construct($data = null) {
         if ($data) {
@@ -13,7 +13,7 @@ class Usuario {
             $this->nomeC = $data['nomeC'] ?? null;
             $this->email = $data['email'] ?? null;
             $this->senha_hash = $data['senha_hash'] ?? null;
-            $this->created_at = $data['created_at'] ?? null;
+            $this->criado_em = $data['criado_em'] ?? null;
         }
     }
 
@@ -22,7 +22,7 @@ class Usuario {
     public function getNomeC() { return $this->nomeC; }
     public function getEmail() { return $this->email; }
     public function getSenhaHash() { return $this->senha_hash; }
-    public function getCreatedAt() { return $this->created_at; }
+    public function getCreatedAt() { return $this->criado_em; }
 
     public function setNomeC($nomeC) { $this->nomeC = $nomeC; }
     public function setEmail($email) { $this->email = $email; }

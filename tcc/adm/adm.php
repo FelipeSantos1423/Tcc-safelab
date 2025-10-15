@@ -68,16 +68,16 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <h2>Admin Painel</h2>
-    <a href="#">📊 Dashboard</a>
-    <a href="#">💡 Dispositivos</a>
-    <a href="#">📍 Locais</a>
-    <a href="#">👤 Administradores</a>
-    <a href="#">🚪 Logout</a>
+    <a href="dashboard/dashboard.php">📊 Dashboard</a>
+    <a href="dispositivos/dispositivos.php">💡 Dispositivos</a>
+    <a href="locais/locais.php">📍 Locais</a>
+    <a href="admins.php">👤 Administradores</a>
+    <a href="logout.php">🚪 Logout</a>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
-    <h2 class="mb-4">Dashboard de Monitoramento</h2>
+   <h2 class="mb-4">Dashboard de Monitoramento</h2> 
 
     <div class="actions">
       <button class="btn btn-primary me-2">Adicionar Dispositivo</button>

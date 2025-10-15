@@ -1,6 +1,7 @@
 <?php
 require_once 'Usuario.php';
-require_once(__DIR__ . '/../config/Database.php');
+require_once(__DIR__ . '/../../config/database.php');
+
 
 class UsuarioDAO {
     private $conn;
@@ -12,7 +13,7 @@ class UsuarioDAO {
 
     // Busca um usuário pelo email
     public function buscarPorEmail($email) {
-        $query = "SELECT * FROM tbl_usuario WHERE email = :email";
+        $query = "SELECT * FROM tbl_usuarios WHERE email = :email";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
@@ -37,7 +38,7 @@ class UsuarioDAO {
     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
     // Insere o usuário no banco
-    $query = "INSERT INTO tbl_usuario (nomeC, email, senha_hash) VALUES (:nomeC, :email, :senha_hash)";
+    $query = "INSERT INTO tbl_usuarios (nomeC, email, senha_hash) VALUES (:nomeC, :email, :senha_hash)";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':nomeC', $nomeC);
     $stmt->bindParam(':email', $email);
@@ -47,7 +48,7 @@ class UsuarioDAO {
 }
 
 public function buscarPorId($id) {
-    $query = "SELECT * FROM tbl_usuario WHERE id = :id";
+    $query = "SELECT * FROM tbl_usuarios WHERE id = :id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
@@ -61,7 +62,7 @@ public function buscarPorId($id) {
 
 // Atualiza só o email
 public function atualizarEmail($id, $email) {
-    $query = "UPDATE tbl_usuario SET email = :email WHERE id = :id";
+    $query = "UPDATE tbl_usuarios SET email = :email WHERE id = :id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -69,7 +70,7 @@ public function atualizarEmail($id, $email) {
 }
 
 public function atualizarNomeEmail($id, $nomeC, $email) {
-    $query = "UPDATE tbl_usuario SET nomeC = :nomeC, email = :email WHERE id = :id";
+    $query = "UPDATE tbl_usuarios SET nomeC = :nomeC, email = :email WHERE id = :id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':nomeC', $nomeC);
     $stmt->bindParam(':email', $email);
@@ -80,7 +81,7 @@ public function atualizarNomeEmail($id, $nomeC, $email) {
 // Atualiza email e senha e nome
 public function atualizarEmailSenha($id, $nomeC, $email, $senha) {
     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-    $query = "UPDATE tbl_usuario SET nomeC = :nomeC, email = :email, senha_hash = :senha_hash WHERE id = :id";
+    $query = "UPDATE tbl_usuarios SET nomeC = :nomeC, email = :email, senha_hash = :senha_hash WHERE id = :id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':nomeC', $nomeC);
     $stmt->bindParam(':email', $email);
@@ -90,10 +91,17 @@ public function atualizarEmailSenha($id, $nomeC, $email, $senha) {
 }
 
 public function excluir($id) {
-    $query = "DELETE FROM tbl_usuario WHERE id = :id";
+    $query = "DELETE FROM tbl_usuarios WHERE id = :id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     return $stmt->execute();
+}
+
+public function listarTodos() {
+    $sql = "SELECT * FROM tbl_usuarios ORDER BY id DESC";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }
