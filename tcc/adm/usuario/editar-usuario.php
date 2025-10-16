@@ -1,13 +1,31 @@
 <?php
 session_start();
 require_once __DIR__ . '/../../Models/Usuario/Usuario.php';
+require_once __DIR__ . '/../../Models/Usuario/UsuarioDAO.php';
 
+// Verifica login
 if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
     header('Location: /tcc-safelab/tcc/public/login.php');
     exit;
 }
 
-$usuario = unserialize($_SESSION['usuario']);
+// Recupera usuário logado
+$usuarioLogado = unserialize($_SESSION['usuario']);
+$usuarioDAO = new UsuarioDAO();
+
+// Se tiver ID na URL, busca o usuário específico
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $usuario = $usuarioDAO->buscarPorId((int)$_GET['id']);
+
+    // Caso o usuário não exista
+    if (!$usuario) {
+        header('Location: ../admin_usuarios.php?msg=usuario_nao_encontrado');
+        exit;
+    }
+} else {
+    // Caso acesse sem ID, usa o próprio usuário logado
+    $usuario = $usuarioLogado;
+}
 ?>
 
 <!DOCTYPE html>
@@ -62,10 +80,10 @@ $usuario = unserialize($_SESSION['usuario']);
       <div class="max-w-md w-full bg-white dark:bg-background-dark rounded-xl shadow-lg p-8 space-y-6 border border-gray-200 dark:border-gray-700">
         <div class="text-center">
           <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Editar Usuário</h2>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Atualize suas informações abaixo</p>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Atualize as informações abaixo</p>
         </div>
 
-        <!-- Formulário de edição -->
+        <!-- Formulário -->
         <form method="post" action="../../process/usuario/process_editar.php" class="space-y-6">
           <input type="hidden" name="id" value="<?= $usuario->getId() ?>">
 

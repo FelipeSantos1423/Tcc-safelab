@@ -1,15 +1,17 @@
 <?php
 session_start();
-require_once(__DIR__ . '/../../models/Usuario/Usuario.php');
+require_once(__DIR__ . '/../../Models/Usuario/Usuario.php');
 require_once(__DIR__ . '/../../Models/Usuario/UsuarioDAO.php');
 
+// Garante que o usuário está logado
 if (!isset($_SESSION['logado'])) {
     header('Location: ../login.php');
     exit;
 }
 
+// Verifica se veio por POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = (int)$_POST['id']; // usuário a ser editado
+    $id = (int)$_POST['id'];
     $nomeC = trim($_POST['nomeC']);
     $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
     $senha = trim($_POST['senha']);
@@ -35,19 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($atualizou) {
-        // Só atualiza a sessão se o usuário editado for ele mesmo
-        if ($id === unserialize($_SESSION['usuario'])->getId()) {
+        // Se o usuário editado for o próprio logado, atualiza a sessão
+        $usuarioLogado = unserialize($_SESSION['usuario']);
+        if ($id === $usuarioLogado->getId()) {
             $usuarioAtualizado = $usuarioDAO->buscarPorId($id);
             $_SESSION['usuario'] = serialize($usuarioAtualizado);
         }
 
-        header('Location: ../admin_usuarios.php?msg=usuario_atualizado');
+        header('Location: ../../views/usuario/admins.php?msg=usuario_atualizado');
         exit;
     } else {
         echo "Erro ao atualizar usuário.";
     }
 } else {
-    header('Location: ../admin_usuarios.php');
+    header('Location: ../../views/usuario/admins.php');
     exit;
 }
 ?>

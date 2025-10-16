@@ -10,7 +10,7 @@ if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
 $usuarioLogado = unserialize($_SESSION['usuario']);
 
 $usuarioDAO = new UsuarioDAO();
-$usuarios = $usuarioDAO->listarTodos(); // Função que busca todos os usuários no banco
+$usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
 ?>
 
 <!DOCTYPE html>
@@ -90,13 +90,12 @@ $usuarios = $usuarioDAO->listarTodos(); // Função que busca todos os usuários
                 <td><?= htmlspecialchars($u['email']); ?></td>
                 <td><?= date('d/m/Y', strtotime($u['criado_em'])); ?></td>
                 <td>
-
-                <a href="editar-usuario.php?id=<?= $u['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
-                <a href="../../process/usuario/process_excluir_usuario.php?id=<?= $u['id']; ?>" 
-                  class="btn btn-sm btn-danger"
-                  onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
-                  Excluir
-                </a>
+                  <a href="editar-usuario.php?id=<?= $u['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
+                  <a href="../../process/usuario/process_excluir_usuario.php?id=<?= $u['id']; ?>" 
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                    Excluir
+                  </a>
                 </td>
               </tr>
             <?php endforeach; ?>
