@@ -1,13 +1,6 @@
 <?php
-session_start();
 require_once __DIR__ . '/../Models/Dispositivo/DispositivoDAO.php';
 require_once __DIR__ . '/../Models/Leitura/LeituraDAO.php';
-
-// Verifica login
-if (!isset($_SESSION['logado'])) {
-    header('Location: ../public/login.php');
-    exit;
-}
 
 $dispositivoDAO = new DispositivoDAO();
 $leituraDAO = new LeituraDAO();
