@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Administrador</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       display: flex;
@@ -43,15 +42,19 @@
       flex-grow: 1;
       padding: 30px;
     }
-    .chart-container {
+    .welcome-card {
       background: white;
       border-radius: 12px;
-      padding: 20px;
+      padding: 30px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 25px;
+      text-align: center;
     }
     .actions {
-      margin-bottom: 25px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
     @media(max-width: 768px) {
       .sidebar {
@@ -64,78 +67,21 @@
   </style>
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2>Admin Painel</h2>
-    <a href="dashboard/dashboard.php">📊 Dashboard</a>
-    <a href="dispositivos/dispositivos.php">💡 Dispositivos</a>
-    <a href="locais/locais.php">📍 Locais</a>
-    <a href="admins.php">👤 Administradores</a>
-    <a href="logout.php">🚪 Logout</a>
-  </div>
+    <?php include "includes/sidebar.php"; ?>
 
   <!-- Main Content -->
   <div class="main-content">
-   <h2 class="mb-4">Dashboard de Monitoramento</h2> 
+    <div class="welcome-card">
+      <h1>Bem-vindo, Administrador!</h1>
+      <p class="mt-2 text-muted">Escolha uma das ações abaixo para começar:</p>
 
-    <div class="actions">
-      <button class="btn btn-primary me-2">Adicionar Dispositivo</button>
-      <button class="btn btn-success me-2">Adicionar Local</button>
-      <button class="btn btn-secondary">Novo Admin</button>
-    </div>
-
-    <!-- Gráficos -->
-    <div class="chart-container">
-      <canvas id="graficoTemp"></canvas>
-    </div>
-    <div class="chart-container">
-      <canvas id="graficoUmid"></canvas>
-    </div>
-    <div class="chart-container">
-      <canvas id="graficoLuz"></canvas>
-    </div>
-    <div class="chart-container">
-      <canvas id="graficoRuido"></canvas>
+      <div class="actions">
+        <a href="dispositivos/cadastro_dispositivo.php" class="btn btn-primary">Adicionar Dispositivo</a>
+        <a href="locais/cadastro_local.php" class="btn btn-success">Adicionar Local</a>
+        <a href="admins/cadastro.php" class="btn btn-secondary">Novo Admin</a>
+      </div>
     </div>
   </div>
-
-  <script>
-    // Simulação de dados (depois conectamos ao banco)
-    const labels = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00'];
-    const temp = [22,23,25,24,26,28,27];
-    const umid = [50,52,55,53,57,59,60];
-    const luz = [200,250,300,320,280,350,370];
-    const ruido = [40,42,41,43,39,38,37];
-
-    const criarGrafico = (id, label, data, color) => {
-      new Chart(document.getElementById(id), {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label,
-            data,
-            borderColor: color,
-            fill: false,
-            tension: 0.3
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: { title: { display: true, text: 'Hora' } },
-            y: { title: { display: true, text: label } }
-          }
-        }
-      });
-    }
-
-    criarGrafico("graficoTemp", "Temperatura (°C)", temp, "red");
-    criarGrafico("graficoUmid", "Umidade (%)", umid, "blue");
-    criarGrafico("graficoLuz", "Luz (lx)", luz, "orange");
-    criarGrafico("graficoRuido", "Ruído (dB)", ruido, "green");
-  </script>
 
 </body>
 </html>

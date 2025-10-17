@@ -58,7 +58,7 @@
 <nav class="hidden md:flex items-center space-x-8">
 <a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#home">Home</a>
 <a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#sobre">Sobre</a>
-<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="public/dashboard.php">Dashboard</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="/public/dashboard.php">Dashboard</a>
 </nav>
 <button class="md:hidden rounded-md p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" id="menu-btn">
 <span class="sr-only">Abrir menu</span>
@@ -81,7 +81,7 @@
 <p class="mt-4 text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">Monitorando laboratórios de informática para garantir um ambiente educacional saudável, seguro e produtivo.</p>
 <div class="mt-8 flex justify-center gap-4">
 <a class="inline-block bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-primary/90 transition-colors" href="#sobre">Saiba Mais</a>
-<a class="inline-block bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold py-3 px-8 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" href="public/dashboard" id="dashboard">Dashboard</a>
+<a class="inline-block bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold py-3 px-8 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" href="public/dashboard.php" id="dashboard">Dashboard</a>
 </div>
 </div>
 </section>
