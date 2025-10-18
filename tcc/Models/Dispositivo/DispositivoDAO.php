@@ -59,5 +59,19 @@ class DispositivoDAO {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function buscarPorCodigo($codigoEsp) {
+    try {
+        $sql = "SELECT * FROM tbl_dispositivos WHERE codigo_esp = :codigo_esp LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':codigo_esp', $codigoEsp);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Erro ao buscar dispositivo por código: " . $e->getMessage());
+        return false;
+    }
+}
+
 }
 ?>

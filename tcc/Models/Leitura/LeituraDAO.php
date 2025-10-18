@@ -49,5 +49,20 @@ class LeituraDAO {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function inserir($dados) {
+        $query = "INSERT INTO tbl_leituras 
+            (tbl_dispositivos_id, temperatura, umidade, luz, ruido, data_registro) 
+            VALUES (:dispositivo, :temp, :umid, :luz, :ruido, :data)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':dispositivo', $dados['tbl_dispositivos_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':temp', $dados['temperatura']);
+        $stmt->bindParam(':umid', $dados['umidade']);
+        $stmt->bindParam(':luz', $dados['luz']);
+        $stmt->bindParam(':ruido', $dados['ruido']);
+        $stmt->bindParam(':data', $dados['data_registro']);
+        return $stmt->execute();
+    }
+
 }
 ?>

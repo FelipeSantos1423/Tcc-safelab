@@ -1,79 +1,94 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include "DHT.h"
+#include <Wire.h>
+#include <BH1750.h>
+#include <DHT.h>
 
-// Credenciais WiFi
-const char* ssid = "SUA_REDE_WIFI";
-const char* password = "SUA_SENHA_WIFI";
+#define DHTTYPE DHT11
+const int dhtPin = 25;
+const int micPin = 34;
 
-// URL do PHP no servidor
-const char* serverName = "http://SEU_SERVIDOR/salvar.php";
+const char* ssid = "Maria Fernanda";
+const char* password = "casa31445519";
 
-// Configuração do sensor DHT
-#define DHTPIN 4      // Pino do DHT22
-#define DHTTYPE DHT22 // Pode ser DHT11 também
-DHT dht(DHTPIN, DHTTYPE);
+// URL do endpoint PHP que recebe os dados (mude para seu IP/rota)
+const char* serverHost = "http://192.168.0.100/tcc/process/ingest.php";
 
-// Sensores analógicos
-int ldrPin = 34;   // Ajuste conforme seu circuito
-int micPin = 35;   // Ajuste conforme seu circuito
+BH1750 lightMeter;
+DHT dht(dhtPin, DHTTYPE);
 
 void setup() {
   Serial.begin(115200);
-  dht.begin();
+  delay(500);
 
-  // Conectar WiFi
   WiFi.begin(ssid, password);
-  Serial.print("Conectando ao WiFi");
+  Serial.print("Conectando WiFi...");
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    delay(300);
     Serial.print(".");
   }
-  Serial.println("\nWiFi conectado!");
+  Serial.println();
+  Serial.print("Conectado. IP: ");
+  Serial.println(WiFi.localIP());
+
+  Wire.begin(21,22);
+  lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE);
+  dht.begin();
+  analogSetPinAttenuation(micPin, ADC_11db);
+}
+
+float readNoiseRms(int samples = 200) {
+  int val;
+  int minVal = 4095, maxVal = 0;
+  for (int i=0;i<samples;i++){
+    val = analogRead(micPin);
+    if (val > maxVal) maxVal = val;
+    if (val < minVal) minVal = val;
+    delay(2);
+  }
+  float rms = (maxVal - minVal) / 2.0;
+  return rms;
 }
 
 void loop() {
-  // Ler sensores
-  float temperatura = dht.readTemperature();
-  float umidade = dht.readHumidity();
-  int luz = analogRead(ldrPin);
-  int ruido = analogRead(micPin);
-
-  // Verificação básica
-  if (isnan(temperatura) || isnan(umidade)) {
-    Serial.println("Erro ao ler o DHT!");
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi desconectado. Tentando reconectar...");
+    WiFi.reconnect();
+    delay(1000);
     return;
   }
 
-  // Montar JSON
-  String json = "{\"temperatura\": " + String(temperatura, 2) +
-                ", \"umidade\": " + String(umidade, 2) +
-                ", \"luz\": " + String(luz) +
-                ", \"ruido\": " + String(ruido) + "}";
+  float lux = lightMeter.readLightLevel(); // lux
+  float temp = dht.readTemperature(); // C
+  float umid = dht.readHumidity(); // %
+  float ruido = readNoiseRms(); // valor relativo
 
-  Serial.println("Enviando JSON: " + json);
+  // ID do dispositivo (preencha com o id que está no banco)
+  int dispositivo_id = 1;
 
-  // Enviar para o servidor
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    http.begin(serverName);
-    http.addHeader("Content-Type", "application/json");
+  // monta JSON
+  String json = "{";
+  json += "\"dispositivo_id\": " + String(dispositivo_id) + ",";
+  json += "\"temperatura\": " + String(temp, 2) + ",";
+  json += "\"umidade\": " + String(umid, 2) + ",";
+  json += "\"luz\": " + String(lux, 2) + ",";
+  json += "\"ruido\": " + String(ruido, 2);
+  json += "}";
 
-    int httpResponseCode = http.POST(json);
+  Serial.println("Enviando: " + json);
 
-    if (httpResponseCode > 0) {
-      Serial.print("Resposta do servidor: ");
-      Serial.println(httpResponseCode);
-      String payload = http.getString();
-      Serial.println("Resposta: " + payload);
-    } else {
-      Serial.print("Erro ao enviar POST: ");
-      Serial.println(httpResponseCode);
-    }
+  HTTPClient http;
+  http.begin(serverHost);
+  http.addHeader("Content-Type", "application/json");
 
-    http.end();
-  }
+  int httpCode = http.POST(json);
+  String payload = http.getString();
+  Serial.print("HTTP code: ");
+  Serial.println(httpCode);
+  Serial.print("Resposta: ");
+  Serial.println(payload);
 
-  // Espera antes da próxima leitura (5s)
-  delay(5000);
+  http.end();
+
+  delay(10000); // intervalo 10s (ou altere)
 }
