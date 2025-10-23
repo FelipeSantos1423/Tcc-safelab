@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../../Models/Usuario/UsuarioDAO.php';
+require_once __DIR__ . '/../Models/Local/LocalDAO.php';
 
 if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
     header('Location: /tcc-safelab/tcc/public/login.php');
@@ -8,9 +8,8 @@ if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
 }
 
 $usuarioLogado = unserialize($_SESSION['usuario']);
-
-$usuarioDAO = new UsuarioDAO();
-$usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
+$localDAO = new LocalDAO();
+$locais = $localDAO->listarTodos(); // Busca todos os locais
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +17,7 @@ $usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administradores</title>
+  <title>Locais</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -62,36 +61,34 @@ $usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
   </style>
 </head>
 <body>
-  <?php include "../includes/sidebar.php"; ?>
+  <?php include "includes/sidebar.php"; ?>
 
   <div class="main-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Administradores Cadastrados</h2>
-      <a href="cadastro.php" class="btn btn-primary">+ Novo Administrador</a>
+      <h2>Locais Cadastrados</h2>
+      <a href="local/cadastro-local.php" class="btn btn-primary">+ Novo Local</a>
     </div>
 
-    <?php if (!empty($usuarios)) : ?>
+    <?php if (!empty($locais)) : ?>
       <div class="table-responsive">
         <table class="table table-bordered table-hover shadow-sm bg-white rounded">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nome Completo</th>
-              <th>Email</th>
-              <th>Data de Cadastro</th>
+              <th>Nome do Local</th>
+              <th>Descrição</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody>
-            <?php foreach ($usuarios as $u): ?>
+<tbody>
+            <?php foreach ($locais as $l): ?>
               <tr>
-                <td><?= htmlspecialchars($u['id']); ?></td>
-                <td><?= htmlspecialchars($u['nomeC']); ?></td>
-                <td><?= htmlspecialchars($u['email']); ?></td>
-                <td><?= date('d/m/Y', strtotime($u['criado_em'])); ?></td>
+                <td><?= htmlspecialchars($l['id']); ?></td>
+                <td><?= htmlspecialchars($l['locais']); ?></td>
+                <td><?= htmlspecialchars($l['descricao']); ?></td>
                 <td>
-                  <a href="editar-usuario.php?id=<?= $u['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
-                  <a href="../../process/usuario/process_excluir_usuario.php?id=<?= $u['id']; ?>" 
+                  <a href="local/editar-local.php?id=<?= $l['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
+                  <a href="../process/local/process_excluir_local.php?id=<?= $l['id']; ?>" 
                     class="btn btn-sm btn-danger"
                     onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
                     Excluir

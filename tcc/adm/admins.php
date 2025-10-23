@@ -1,14 +1,16 @@
 <?php
 session_start();
-require_once __DIR__ . '/../../Models/Dispositivo/DispositivoDAO.php';
+require_once __DIR__ . '/../Models/Usuario/UsuarioDAO.php';
 
-if (!isset($_SESSION['logado'])) {
-    header('Location: ../../public/login.php');
+if (!isset($_SESSION['logado']) || !isset($_SESSION['usuario'])) {
+    header('Location: /tcc-safelab/tcc/public/login.php');
     exit;
 }
 
-$dispositivoDAO = new DispositivoDAO();
-$dispositivos = $dispositivoDAO->listarTodos();
+$usuarioLogado = unserialize($_SESSION['usuario']);
+
+$usuarioDAO = new UsuarioDAO();
+$usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +18,7 @@ $dispositivos = $dispositivoDAO->listarTodos();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dispositivos</title>
+  <title>Administradores</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -60,43 +62,39 @@ $dispositivos = $dispositivoDAO->listarTodos();
   </style>
 </head>
 <body>
-  <?php include "../includes/sidebar.php"; ?>
+  <?php include "includes/sidebar.php"; ?>
 
   <div class="main-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Dispositivos Cadastrados</h2>
-      <a href="cadastro-dispositivo.php" class="btn btn-primary">+ Novo Dispositivo</a>
+      <h2>Administradores Cadastrados</h2>
+      <a href="usuario/cadastro.php" class="btn btn-primary">+ Novo Administrador</a>
     </div>
 
-    <?php if (!empty($dispositivos)) : ?>
+    <?php if (!empty($usuarios)) : ?>
       <div class="table-responsive">
         <table class="table table-bordered table-hover shadow-sm bg-white rounded">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nome</th>
-              <th>Código Especial</th>
-              <th>Ativo</th>
-              <th>Local</th>
-              <th>Criado Em</th>
+              <th>Nome Completo</th>
+              <th>Email</th>
+              <th>Data de Cadastro</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($dispositivos as $d): ?>
+            <?php foreach ($usuarios as $u): ?>
               <tr>
-                <td><?= htmlspecialchars($d['id']); ?></td>
-                <td><?= htmlspecialchars($d['nome']); ?></td>
-                <td><?= htmlspecialchars($d['codigo_esp']); ?></td>
-                <td><?= $d['ativo'] ? 'Sim' : 'Não'; ?></td>
-                <td><?= htmlspecialchars($d['nome_local']); ?></td>
-                <td><?= date('d/m/Y H:i', strtotime($d['criado_em'])); ?></td>
+                <td><?= htmlspecialchars($u['id']); ?></td>
+                <td><?= htmlspecialchars($u['nomeC']); ?></td>
+                <td><?= htmlspecialchars($u['email']); ?></td>
+                <td><?= date('d/m/Y', strtotime($u['criado_em'])); ?></td>
                 <td>
-                  <a href="editar-dispositivo.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
-                  <a href="../../process/dispositivo/process_excluir_dispositivo.php?id=<?= $d['id']; ?>" 
-                     class="btn btn-sm btn-danger"
-                     onclick="return confirm('Tem certeza que deseja excluir este dispositivo?');">
-                     Excluir
+                  <a href="usuario/editar-usuario.php?id=<?= $u['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
+                  <a href="../process/usuario/process_excluir_usuario.php?id=<?= $u['id']; ?>" 
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                    Excluir
                   </a>
                 </td>
               </tr>
@@ -105,7 +103,7 @@ $dispositivos = $dispositivoDAO->listarTodos();
         </table>
       </div>
     <?php else : ?>
-      <p class="text-muted">Nenhum dispositivo cadastrado ainda.</p>
+      <p class="text-muted">Nenhum administrador cadastrado ainda.</p>
     <?php endif; ?>
   </div>
 </body>
