@@ -48,7 +48,7 @@ body {
 .header-top {
     text-align: center;
     padding: 15px 0;
-    background-color: #0d6efd;
+    background-color: #00e878;
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
@@ -59,7 +59,7 @@ body {
     cursor: pointer;
 }
 .card-header {
-    background-color: #0d6efd;
+    background-color: #00e878;
     color: white;
     font-weight: bold;
 }

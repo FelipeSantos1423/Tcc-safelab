@@ -27,7 +27,7 @@ $dispositivos = $dispositivoDAO->listarTodos();
     }
     .sidebar {
       width: 250px;
-      background: #0d6efd;
+      background: #00e878;
       color: white;
       display: flex;
       flex-direction: column;
@@ -49,7 +49,7 @@ $dispositivos = $dispositivoDAO->listarTodos();
       padding: 40px;
     }
     .table th {
-      background-color: #0d6efd;
+      background-color: #00e878;
       color: white;
       text-align: center;
     }

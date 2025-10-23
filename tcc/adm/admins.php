@@ -29,7 +29,7 @@ $usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
     }
     .sidebar {
       width: 250px;
-      background: #0d6efd;
+      background: #00e878;
       color: white;
       display: flex;
       flex-direction: column;
@@ -51,7 +51,7 @@ $usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
       padding: 40px;
     }
     .table th {
-      background-color: #0d6efd;
+      background-color: #00e878;
       color: white;
       text-align: center;
     }
