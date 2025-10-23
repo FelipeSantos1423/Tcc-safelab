@@ -5,7 +5,31 @@ require_once __DIR__ . '/../Models/Leitura/LeituraDAO.php';
 $dispositivoDAO = new DispositivoDAO();
 $leituraDAO = new LeituraDAO();
 
-$dispositivos = $dispositivoDAO->listarTodos(); // Todos os dispositivos
+$dispositivos = $dispositivoDAO->listarTodos();
+
+// Funções de interpretação
+function interpretarTemperatura($t) {
+    if ($t === null) return ['Sem dados', 'secondary'];
+    if ($t < 18) return ['Frio ❄️', 'info'];
+    if ($t <= 27) return ['Agradável 🌤️', 'success'];
+    return ['Calor 🔥', 'danger'];
+}
+function interpretarUmidade($u) {
+    if ($u === null) return ['Sem dados', 'secondary'];
+    if ($u < 40) return ['Seco 💨', 'info'];
+    if ($u <= 70) return ['Confortável 💧', 'success'];
+    return ['Úmido 💦', 'warning'];
+}
+function interpretarLuz($l) {
+    if ($l === null) return ['Sem dados', 'secondary'];
+    return $l < 100 ? ['Apagada 🌙', 'dark'] : ['Acesa 💡', 'warning'];
+}
+function interpretarRuido($r) {
+    if ($r === null) return ['Sem dados', 'secondary'];
+    if ($r < 40) return ['Silencioso 🤫', 'info'];
+    if ($r <= 70) return ['Agradável 🔈', 'success'];
+    return ['Alto 🔊', 'danger'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +69,20 @@ body {
     margin-top: 5px;
     text-align: center;
 }
+canvas {
+    max-height: 250px !important;
+}
+.badge {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    display: inline-block;
+    margin: 2px;
+}
 </style>
 </head>
 <body>
 <div class="header-top">
-    Bem-vindo, Admin! <span id="hora-atual"></span>
+    Bem-vindo <span id="hora-atual"></span>
 </div>
 
 <div class="container mt-4">
@@ -57,19 +90,33 @@ body {
 
     <div class="row">
     <?php foreach ($dispositivos as $disp): 
-        $leituras = $leituraDAO->listarPorDispositivo($disp['id'], 10); // últimas 10 leituras
-        $labels = [];
-        $temp = [];
-        $umid = [];
-        $luz = [];
-        $ruido = [];
-        foreach ($leituras as $l) {
-            $labels[] = date('H:i', strtotime($l['data_registro']));
-            $temp[] = $l['temperatura'];
-            $umid[] = $l['umidade'];
-            $luz[] = $l['luz'];
-            $ruido[] = $l['ruido'];
+        $leituras = $leituraDAO->listarPorDispositivo($disp['id'], 10);
+        $labels = $temp = $umid = $luz = $ruido = [];
+
+        if (!empty($leituras)) {
+            foreach ($leituras as $l) {
+                $labels[] = date('H:i', strtotime($l['data_registro']));
+                $temp[] = (float) $l['temperatura'];
+                $umid[] = (float) $l['umidade'];
+                $luz[] = (float) $l['luz'];
+                $ruido[] = (float) $l['ruido'];
+            }
+
+            // Última leitura para interpretação
+            $ultimaTemp = end($temp);
+            $ultimaUmid = end($umid);
+            $ultimaLuz = end($luz);
+            $ultimaRuido = end($ruido);
+        } else {
+            $ultimaTemp = $ultimaUmid = $ultimaLuz = $ultimaRuido = null;
         }
+
+        [$tempStatus, $tempColor] = interpretarTemperatura($ultimaTemp);
+        [$umidStatus, $umidColor] = interpretarUmidade($ultimaUmid);
+        [$luzStatus, $luzColor] = interpretarLuz($ultimaLuz);
+        [$ruidoStatus, $ruidoColor] = interpretarRuido($ultimaRuido);
+
+        $ultimaMedicao = !empty($labels) ? end($labels) : 'N/A';
     ?>
     <div class="col-md-6">
         <div class="card">
@@ -78,24 +125,36 @@ body {
             </div>
             <div id="disp<?= $disp['id'] ?>" class="collapse">
                 <div class="card-body">
+                    <?php if (empty($leituras)): ?>
+                        <p class="text-center text-muted">Sem dados de leitura disponíveis.</p>
+                    <?php else: ?>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3 text-center">
                             <canvas id="temp<?= $disp['id'] ?>"></canvas>
-                            <div class="chart-footer">Última medição: <?= end($labels) ?? 'N/A' ?></div>
+                            <div class="chart-footer">
+                                <span class="badge bg-<?= $tempColor ?>">Temperatura: <?= $tempStatus ?></span>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3 text-center">
                             <canvas id="umid<?= $disp['id'] ?>"></canvas>
-                            <div class="chart-footer">Última medição: <?= end($labels) ?? 'N/A' ?></div>
+                            <div class="chart-footer">
+                                <span class="badge bg-<?= $umidColor ?>">Umidade: <?= $umidStatus ?></span>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3 text-center">
                             <canvas id="luz<?= $disp['id'] ?>"></canvas>
-                            <div class="chart-footer">Última medição: <?= end($labels) ?? 'N/A' ?></div>
+                            <div class="chart-footer">
+                                <span class="badge bg-<?= $luzColor ?>">Luz: <?= $luzStatus ?></span>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3 text-center">
                             <canvas id="ruido<?= $disp['id'] ?>"></canvas>
-                            <div class="chart-footer">Última medição: <?= end($labels) ?? 'N/A' ?></div>
+                            <div class="chart-footer">
+                                <span class="badge bg-<?= $ruidoColor ?>">Ruído: <?= $ruidoStatus ?></span>
+                            </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -108,26 +167,29 @@ body {
     const luzData<?= $disp['id'] ?> = <?= json_encode($luz) ?>;
     const ruidoData<?= $disp['id'] ?> = <?= json_encode($ruido) ?>;
 
-    new Chart(document.getElementById('temp<?= $disp['id'] ?>'), {
-        type: 'line',
-        data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Temperatura (°C)', data: tempData<?= $disp['id'] ?>, borderColor: 'red', fill: false }] },
-        options: { responsive: true }
-    });
-    new Chart(document.getElementById('umid<?= $disp['id'] ?>'), {
-        type: 'line',
-        data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Umidade (%)', data: umidData<?= $disp['id'] ?>, borderColor: 'blue', fill: false }] },
-        options: { responsive: true }
-    });
-    new Chart(document.getElementById('luz<?= $disp['id'] ?>'), {
-        type: 'line',
-        data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Luz (lx)', data: luzData<?= $disp['id'] ?>, borderColor: 'orange', fill: false }] },
-        options: { responsive: true }
-    });
-    new Chart(document.getElementById('ruido<?= $disp['id'] ?>'), {
-        type: 'line',
-        data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Ruído (dB)', data: ruidoData<?= $disp['id'] ?>, borderColor: 'green', fill: false }] },
-        options: { responsive: true }
-    });
+    if (labels<?= $disp['id'] ?>.length > 0) {
+        const opts = { responsive: true, maintainAspectRatio: true, tension: 0.3 };
+        new Chart(document.getElementById('temp<?= $disp['id'] ?>'), {
+            type: 'line',
+            data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Temperatura (°C)', data: tempData<?= $disp['id'] ?>, borderColor: 'red', fill: false }] },
+            options: opts
+        });
+        new Chart(document.getElementById('umid<?= $disp['id'] ?>'), {
+            type: 'line',
+            data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Umidade (%)', data: umidData<?= $disp['id'] ?>, borderColor: 'blue', fill: false }] },
+            options: opts
+        });
+        new Chart(document.getElementById('luz<?= $disp['id'] ?>'), {
+            type: 'line',
+            data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Luz (lx)', data: luzData<?= $disp['id'] ?>, borderColor: 'orange', fill: false }] },
+            options: opts
+        });
+        new Chart(document.getElementById('ruido<?= $disp['id'] ?>'), {
+            type: 'line',
+            data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Ruído (dB)', data: ruidoData<?= $disp['id'] ?>, borderColor: 'green', fill: false }] },
+            options: opts
+        });
+    }
     </script>
 
     <?php endforeach; ?>
