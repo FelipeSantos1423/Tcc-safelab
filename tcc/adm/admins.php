@@ -20,46 +20,6 @@ $usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administradores</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      display: flex;
-      min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f5f7fa;
-    }
-    .sidebar {
-      width: 250px;
-      background: #00e878;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
-    .sidebar a {
-      color: white;
-      text-decoration: none;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    .sidebar a:hover {
-      background: rgba(255,255,255,0.2);
-    }
-    .main-content {
-      flex-grow: 1;
-      padding: 40px;
-    }
-    .table th {
-      background-color: #00e878;
-      color: white;
-      text-align: center;
-    }
-    .table td {
-      vertical-align: middle;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
   <?php include "includes/sidebar.php"; ?>
