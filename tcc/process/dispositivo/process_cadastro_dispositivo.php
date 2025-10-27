@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $adicionou = $dispositivoDAO->adicionar($nome, $codigo_esp, $ativo, $tbl_locais_id);
 
     if ($adicionou) {
-        header('Location: ../../views/dispositivo/dispositivos.php?msg=dispositivo_adicionado');
+        header('Location: ../../adm/dispositivos.php?msg=dispositivo_adicionado');
         exit;
     } else {
         echo "Erro ao adicionar dispositivo.";
     }
 } else {
-    header('Location: ../../views/dispositivo/dispositivos.php');
+    header('Location: ./../adm/dispositivos.php');
     exit;
 }
 ?>

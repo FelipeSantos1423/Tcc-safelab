@@ -44,13 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario'] = serialize($usuarioAtualizado);
         }
 
-        header('Location: ../../views/usuario/admins.php?msg=usuario_atualizado');
+        header('Location: ../../adm/admins.php?msg=usuario_atualizado');
         exit;
     } else {
         echo "Erro ao atualizar usuário.";
     }
 } else {
-    header('Location: ../../views/usuario/admins.php');
+    header('Location: ../../adm/admins.php');
     exit;
 }
 ?>

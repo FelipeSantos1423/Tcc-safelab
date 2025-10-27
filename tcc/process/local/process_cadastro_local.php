@@ -14,13 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $inseriu = $localDAO->adicionar($locais, $descricao);
 
     if ($inseriu) {
-        header('Location: ../../views/local/admin_locais.php?msg=local_cadastrado');
+        header('Location: ../../adm/locais.php?msg=local_cadastrado');
         exit;
     } else {
         echo "Erro ao cadastrar local.";
     }
 } else {
-    header('Location: ../../views/local/admin_locais.php');
+    header('Location: ../../adm/locais.php');
     exit;
 }
 ?>

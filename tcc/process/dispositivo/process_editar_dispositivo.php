@@ -26,13 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $atualizou = $dispositivoDAO->atualizar($id, $nome, $codigo_esp, $ativo, $tbl_locais_id);
 
     if ($atualizou) {
-        header('Location: ../../views/dispositivo/dispositivos.php?msg=dispositivo_atualizado');
+        header('Location: ../../adm/dispositivos.php?msg=dispositivo_atualizado');
         exit;
     } else {
         echo "Erro ao atualizar dispositivo.";
     }
 } else {
-    header('Location: ../../views/dispositivo/dispositivos.php');
+    header('Location: ../../adm/dispositivos.php');
     exit;
 }
 ?>

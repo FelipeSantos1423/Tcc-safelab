@@ -13,14 +13,13 @@ $sucesso = $usuarioDAO->cadastrar($nomeC, $email, $senha);
 
  // Verifica se usuario já existe
  if ($usuarioDAO->buscarPorEmail($email)) {
-    echo 'Ir para página de <a href="../public/login.php">Login</a><br>';
-    echo 'Ir para página de <a href="../adm/cadastro.php">cadastro</a><br>';
+    header('Location: ../../adm/admins.php?msg=usuario_ja_cadastrado');
+        exit;
     die('Usuário já cadastrado.');
 }
 
 if ($sucesso) {
-    echo "Usuário cadastrado com sucesso! <br><br>";
-    echo 'Ir para página de <a href="../login.php">Login</a>';
+    header('Location: ../../adm/admins.php?msg=usuario_cadastrado');
 } else {
     echo "Erro: e-mail já cadastrado ou falha ao inserir no banco.";
 }

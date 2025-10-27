@@ -13,7 +13,7 @@ $usuarioDAO = new UsuarioDAO();
 $excluiu = $usuarioDAO->excluir($id);
 
 if ($excluiu) {
-    header('Location: ../admin/admins.php?msg=usuario_excluido'); //arrumar caminho
+    header('Location: ../../adm/admins.php?msg=usuario_excluido'); //arrumar caminho
     exit;
 } else {
     echo "Erro ao excluir usuário.";

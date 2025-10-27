@@ -33,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $atualizou = $localDAO->atualizar($id, $locais, $descricao);
 
     if ($atualizou) {
-        header('Location: ../../adm/local/locais.php?msg=local_atualizado');
+        header('Location: ../../adm/locais.php?msg=local_atualizado');
         exit;
     } else {
         echo "Erro ao atualizar local.";
     }
 } else {
-    header('Location: ../../adm/local/locais.php');
+    header('Location: ../../adm/locais.php');
     exit;
 }
 ?>

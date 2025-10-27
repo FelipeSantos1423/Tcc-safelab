@@ -13,7 +13,7 @@ $localDAO = new LocalDAO();
 $excluiu = $localDAO->excluir($id);
 
 if ($excluiu) {
-    header('Location: ../../local/locais.php?msg=local_excluido'); //arrumar caminho
+    header('Location: ../../adm/locais.php?msg=local_excluido'); //arrumar caminho
     exit;
 } else {
     echo "Erro ao excluir usuário.";

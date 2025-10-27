@@ -16,7 +16,7 @@ $dao = new DispositivoDAO();
 $excluiu = $dao->excluir($id);
 
 if ($excluiu) {
-    header('Location: ../../views/dispositivo/dispositivos.php?msg=dispositivo_excluido');
+    header('Location: ../../adm/dispositivos.php?msg=dispositivo_excluido');
     exit;
 } else {
     echo "Erro ao excluir dispositivo.";
