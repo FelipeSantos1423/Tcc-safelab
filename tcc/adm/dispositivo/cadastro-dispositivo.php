@@ -45,16 +45,26 @@ $locais = $localDAO->listarTodos(); // Para popular o dropdown
     }
   </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display">
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
   <div class="flex flex-col min-h-screen">
-    <!-- Header -->
-    <header class="w-full">
-      <div class="container mx-auto px-6 py-4">
-        <div class="flex items-center gap-3 text-gray-800 dark:text-white">
-          <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
-          </svg>
-          <h1 class="text-xl font-bold">SafeLab</h1>
+
+    <!-- Header Escuro -->
+    <header class="sticky top-0 z-20 bg-[#0d1a17]/95 backdrop-blur-sm border-b border-gray-700">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <div class="flex items-center space-x-4">
+            <a class="flex items-center space-x-2" href="../adm.php">
+              <img src="../../images/WhatsApp_Image_2025-10-23_at_21.19.41-removebg-preview (1).png" width="200px" height="200px" alt="SAFELAB Logo"> 
+            </a>
+          </div>
+
+          <!-- Botão voltar -->
+          <a href="../adm.php" 
+             class="text-sm font-medium text-gray-300 hover:text-primary transition-colors flex items-center">
+             ← Voltar
+          </a>
         </div>
       </div>
     </header>
@@ -73,19 +83,22 @@ $locais = $localDAO->listarTodos(); // Para popular o dropdown
           <div>
             <label for="nome" class="text-sm font-medium text-gray-700 dark:text-gray-300">Nome do Dispositivo</label>
             <input type="text" name="nome" required
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-primary focus:border-primary focus:outline-none">
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg 
+                     text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 
+                     focus:ring-primary focus:border-primary focus:outline-none">
           </div>
 
           <div>
             <label for="codigo_esp" class="text-sm font-medium text-gray-700 dark:text-gray-300">Código ESP</label>
             <input type="text" name="codigo_esp" required
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-primary focus:border-primary focus:outline-none">
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg 
+                     text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 
+                     focus:ring-primary focus:border-primary focus:outline-none">
           </div>
 
           <div>
             <label for="ativo" class="inline-flex items-center mt-2">
-              <input type="checkbox" name="ativo" checked
-                class="form-checkbox h-5 w-5 text-primary">
+              <input type="checkbox" name="ativo" checked class="form-checkbox h-5 w-5 text-primary">
               <span class="ml-2 text-gray-700 dark:text-gray-300">Ativo</span>
             </label>
           </div>
@@ -93,7 +106,8 @@ $locais = $localDAO->listarTodos(); // Para popular o dropdown
           <div>
             <label for="tbl_locais_id" class="text-sm font-medium text-gray-700 dark:text-gray-300">Local</label>
             <select name="tbl_locais_id" required
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-primary focus:border-primary focus:outline-none">
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg 
+                     text-gray-900 dark:text-white focus:ring-primary focus:border-primary focus:outline-none">
               <option value="">Selecione um local</option>
               <?php foreach ($locais as $local): ?>
                 <option value="<?= $local['id'] ?>"><?= htmlspecialchars($local['locais']) ?></option>
@@ -103,13 +117,15 @@ $locais = $localDAO->listarTodos(); // Para popular o dropdown
 
           <div>
             <button type="submit"
-              class="w-full flex justify-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+              class="w-full flex justify-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white 
+                     bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
               Cadastrar
             </button>
           </div>
         </form>
       </div>
     </main>
+
   </div>
 </body>
 </html>

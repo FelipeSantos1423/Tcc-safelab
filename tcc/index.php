@@ -44,7 +44,9 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
 <div class="flex flex-col min-h-screen">
-<header class="sticky top-0 z-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+
+<!-- ======= NAVBAR ESCURA ======= -->
+<header class="sticky top-0 z-20 bg-[#0d1a17]/95 backdrop-blur-sm border-b border-gray-700">
 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-16">
 <div class="flex items-center space-x-4">
@@ -53,24 +55,28 @@
 </a>
 </div>
 <nav class="hidden md:flex items-center space-x-8">
-<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#home">Home</a>
-<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#sobre">Sobre</a>
-<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="public/dashboard.php">Dashboard</a>
+<a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="#home">Home</a>
+<a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="#sobre">Sobre</a>
+<a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="public/dashboard.php">Dashboard</a>
 </nav>
-<button class="md:hidden rounded-md p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" id="menu-btn">
+<button class="md:hidden rounded-md p-2 text-gray-300 hover:bg-gray-800" id="menu-btn">
 <span class="sr-only">Abrir menu</span>
 <span class="material-symbols-outlined" id="menu-icon">menu</span>
 </button>
 </div>
 </div>
-<div class="md:hidden" id="mobile-menu">
+
+<!-- Menu Mobile -->
+<div class="md:hidden bg-[#0d1a17] border-t border-gray-700" id="mobile-menu">
 <nav class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-<a class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-white hover:bg-primary" href="#home">Home</a>
-<a class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-white hover:bg-primary" href="#sobre">Sobre</a>
-<a class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-white hover:bg-primary" href="public/dashboard.php">Dashboard</a>
+<a class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-primary/20" href="#home">Home</a>
+<a class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-primary/20" href="#sobre">Sobre</a>
+<a class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-primary/20" href="public/dashboard.php">Dashboard</a>
 </nav>
 </div>
 </header>
+<!-- ======= FIM NAVBAR ======= -->
+
 <main class="flex-grow">
 <section class="px-4 py-10 @container" id="home">
 <div class="flex flex-col gap-6 @[864px]:flex-row-reverse">
@@ -88,6 +94,7 @@
 </div>
 </div>
 </section>
+
 <section class="px-4 py-10" id="sobre">
 <div class="flex flex-col gap-10">
 <div class="flex flex-col gap-4 text-center items-center">
@@ -119,6 +126,7 @@
 </div>
 </div>
 </section>
+
 <section class="flex flex-col gap-10 px-4 py-10 @container" id="about">
 <div class="flex flex-col gap-4">
 <h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px] text-[#111815] dark:text-white"> Sobre o Nosso Projeto </h1>
@@ -155,15 +163,17 @@
 </div>
 </section>
 </main>
+
 <footer class="bg-gray-100 dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
 <div class="text-center">
 <p class="text-sm text-gray-500 dark:text-gray-400">© 2024 SAFELAB. Todos os direitos reservados.</p>
-<a class="text-xs text-gray-500 dark:text-gray-400 hover:text-primary mt-2 inline-block" href="public/login.php">Login do Administrador</a> <!--Caminho login do adm -->
+<a class="text-xs text-gray-500 dark:text-gray-400 hover:text-primary mt-2 inline-block" href="public/login.php">Login do Administrador</a>
 </div>
 </div>
 </footer>
 </div>
+
 <script>
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
