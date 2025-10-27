@@ -31,9 +31,9 @@ $usuarios = $usuarioDAO->listarTodos(); // Busca todos os usuários no banco
       <p class="mt-2 text-muted">Escolha uma das ações abaixo para começar:</p>
 
       <div class="actions">
-        <a href="dispositivos/cadastro_dispositivo.php" class="btn btn-primary">Adicionar Dispositivo</a>
-        <a href="locais/cadastro_local.php" class="btn btn-success">Adicionar Local</a>
-        <a href="admins/cadastro.php" class="btn btn-secondary">Novo Admin</a>
+        <a href="dispositivo/cadastro-dispositivo.php" class="btn btn-primary">Adicionar Dispositivo</a>
+        <a href="local/cadastro-local.php" class="btn btn-success">Adicionar Local</a>
+        <a href="usuario/cadastro.php" class="btn btn-secondary">Novo Admin</a>
       </div>
     </div>
   </div>
