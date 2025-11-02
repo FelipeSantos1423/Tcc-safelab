@@ -4,10 +4,9 @@ require_once __DIR__ . '/../Models/Leitura/LeituraDAO.php';
 
 $dispositivoDAO = new DispositivoDAO();
 $leituraDAO = new LeituraDAO();
-
 $dispositivos = $dispositivoDAO->listarTodos();
 
-// Funções de interpretação
+// ===== INTERPRETAÇÃO =====
 function interpretarTemperatura($t) {
     if ($t === null) return ['Sem dados', 'secondary'];
     if ($t < 18) return ['Frio ❄️', 'info'];
@@ -39,119 +38,123 @@ function interpretarRuido($r) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - SAFELAB</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#00e878",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101c22",
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
 <style>
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f3f4f6;
-    color: #222;
-    margin: 0;
-    padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f6fa;
+  color: #1c1c1c;
 }
-
-/* ===== HEADER ===== */
-header {
-    background-color: #0d1a17;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.7rem 1.5rem;
-}
-header img {
-    height: 55px;
-}
-header a {
-    text-decoration: none;
-    color: #00e878;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-header a:hover {
-    color: #fff;
-}
-
-/* ===== CARDS ===== */
-.card {
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: all 0.2s ease;
-    background: #fff;
-}
-.card:hover {
-    transform: scale(1.02);
-}
-.card-header {
-    background-color: #00e878;
-    color: white;
-    font-weight: 600;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-.chart-footer {
-    font-size: 0.85rem;
-    color: #555;
-    margin-top: 5px;
-    text-align: center;
-}
-canvas {
-    max-height: 250px !important;
-}
-.badge {
-    font-size: 0.9rem;
-    padding: 8px 12px;
-    display: inline-block;
-    margin: 2px;
-}
-
-/* ===== CONTEÚDO ===== */
 main {
-    padding: 2rem 0;
+  padding: 2rem 1rem;
 }
 h2 {
-    font-weight: 700;
-    color: #0d1a17;
-    text-align: center;
-    margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #0d1a17;
+  text-align: center;
+  margin-bottom: 2rem;
 }
-
-/* ===== FOOTER ===== */
+.card {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+.card:hover { transform: scale(1.02); }
+.card-header {
+  background-color: #00e878;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: .8rem;
+}
+.card-body {
+  background-color: #fff;
+  padding: 1rem 1rem 1.2rem;
+}
+.sensor-box {
+  text-align: center;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+.sensor-icon {
+  font-size: 1.7rem;
+}
+.sensor-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0d1a17;
+}
+.sensor-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+.badge {
+  font-size: 0.8rem;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+.btn-historico {
+  background-color: #0d1a17;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+.btn-historico:hover {
+  background-color: #00e878;
+  color: #0d1a17;
+}
 footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #0d1a17;
-    color: #aaa;
-    font-size: 0.85rem;
-    margin-top: 30px;
+  text-align: center;
+  padding: 12px;
+  background-color: #0d1a17;
+  color: #aaa;
+  font-size: 0.9rem;
+  margin-top: 2rem;
 }
-footer span {
-    color: #00e878;
+footer span { color: #00e878; }
+.modal-content {
+  border-radius: 14px;
+}
+.modal-header {
+  background-color: #00e878;
+  color: white;
 }
 </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
- <header class="sticky top-0 z-20 bg-[#0d1a17]/95 backdrop-blur-sm border-b border-gray-700">
+<header class="sticky top-0 z-20 bg-[#0d1a17]/95 backdrop-blur-sm border-b border-gray-700">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
           <div class="flex items-center space-x-4">
-            <a class="flex items-center space-x-2" href="../adm.php">
-              <img src="/../images/WhatsApp_Image_2025-10-23_at_21.19.41-removebg-preview (1).png" width="200px" height="200px" alt="SAFELAB Logo"> 
+            <a class="flex items-center space-x-2" href="../index.php">
+              <img src="../images/WhatsApp_Image_2025-10-23_at_21.19.41-removebg-preview (1).png" width="200px" height="200px" alt="SAFELAB Logo"> 
             </a>
           </div>
 
           <!-- Botão voltar -->
-          <a href="../adm.php" 
+          <a href="../index.php" 
              class="text-sm font-medium text-gray-300 hover:text-primary transition-colors flex items-center">
              ← Voltar
           </a>
@@ -163,118 +166,113 @@ footer span {
 <main class="container">
   <h2>Monitoramento em Tempo Real</h2>
 
-  <div class="row">
+  <div class="row g-4">
   <?php foreach ($dispositivos as $disp): 
-      $leituras = $leituraDAO->listarPorDispositivo($disp['id'], 10);
-      $labels = $temp = $umid = $luz = $ruido = [];
-
+      $leituras = $leituraDAO->listarPorDispositivo($disp['id'], 1);
       if (!empty($leituras)) {
-          foreach ($leituras as $l) {
-              $labels[] = date('H:i', strtotime($l['data_registro']));
-              $temp[] = (float) $l['temperatura'];
-              $umid[] = (float) $l['umidade'];
-              $luz[] = (float) $l['luz'];
-              $ruido[] = (float) $l['ruido'];
-          }
-
-          $ultimaTemp = end($temp);
-          $ultimaUmid = end($umid);
-          $ultimaLuz = end($luz);
-          $ultimaRuido = end($ruido);
+          $l = $leituras[0];
+          $temp = (float) $l['temperatura'];
+          $umid = (float) $l['umidade'];
+          $luz = (float) $l['luz'];
+          $ruido = (float) $l['ruido'];
       } else {
-          $ultimaTemp = $ultimaUmid = $ultimaLuz = $ultimaRuido = null;
+          $temp = $umid = $luz = $ruido = null;
       }
 
-      [$tempStatus, $tempColor] = interpretarTemperatura($ultimaTemp);
-      [$umidStatus, $umidColor] = interpretarUmidade($ultimaUmid);
-      [$luzStatus, $luzColor] = interpretarLuz($ultimaLuz);
-      [$ruidoStatus, $ruidoColor] = interpretarRuido($ultimaRuido);
+      [$tempStatus, $tempColor] = interpretarTemperatura($temp);
+      [$umidStatus, $umidColor] = interpretarUmidade($umid);
+      [$luzStatus, $luzColor] = interpretarLuz($luz);
+      [$ruidoStatus, $ruidoColor] = interpretarRuido($ruido);
+
+      // Histórico (últimas 5 medições)
+      $historico = $leituraDAO->listarPorDispositivo($disp['id'], 5);
   ?>
-  <div class="col-md-6">
-      <div class="card mb-4">
-          <div class="card-header" data-bs-toggle="collapse" data-bs-target="#disp<?= $disp['id'] ?>" aria-expanded="false">
-              Dispositivo: <?= htmlspecialchars($disp['nome']) ?> 
-              <small>(Código: <?= htmlspecialchars($disp['codigo_esp']) ?>)</small>
+  <div class="col-md-6 col-lg-4">
+    <div class="card">
+      <div class="card-header"><?= htmlspecialchars($disp['nome']) ?><br><small>(ESP: <?= htmlspecialchars($disp['codigo_esp']) ?>)</small></div>
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-6">
+            <div class="sensor-box">
+              <div class="sensor-icon">🔥</div>
+              <div class="sensor-value"><?= $temp !== null ? $temp . '°C' : '--' ?></div>
+              <span class="badge bg-<?= $tempColor ?>"><?= $tempStatus ?></span>
+            </div>
           </div>
-          <div id="disp<?= $disp['id'] ?>" class="collapse">
-              <div class="card-body">
-                  <?php if (empty($leituras)): ?>
-                      <p class="text-center text-muted">Sem dados de leitura disponíveis.</p>
-                  <?php else: ?>
-                  <div class="row">
-                      <div class="col-md-6 mb-3 text-center">
-                          <canvas id="temp<?= $disp['id'] ?>"></canvas>
-                          <div class="chart-footer">
-                              <span class="badge bg-<?= $tempColor ?>">Temperatura: <?= $tempStatus ?></span>
-                          </div>
-                      </div>
-                      <div class="col-md-6 mb-3 text-center">
-                          <canvas id="umid<?= $disp['id'] ?>"></canvas>
-                          <div class="chart-footer">
-                              <span class="badge bg-<?= $umidColor ?>">Umidade: <?= $umidStatus ?></span>
-                          </div>
-                      </div>
-                      <div class="col-md-6 mb-3 text-center">
-                          <canvas id="luz<?= $disp['id'] ?>"></canvas>
-                          <div class="chart-footer">
-                              <span class="badge bg-<?= $luzColor ?>">Luz: <?= $luzStatus ?></span>
-                          </div>
-                      </div>
-                      <div class="col-md-6 mb-3 text-center">
-                          <canvas id="ruido<?= $disp['id'] ?>"></canvas>
-                          <div class="chart-footer">
-                              <span class="badge bg-<?= $ruidoColor ?>">Ruído: <?= $ruidoStatus ?></span>
-                          </div>
-                      </div>
-                  </div>
-                  <?php endif; ?>
-              </div>
+          <div class="col-6">
+            <div class="sensor-box">
+              <div class="sensor-icon">💧</div>
+              <div class="sensor-value"><?= $umid !== null ? $umid . '%' : '--' ?></div>
+              <span class="badge bg-<?= $umidColor ?>"><?= $umidStatus ?></span>
+            </div>
           </div>
+          <div class="col-6">
+            <div class="sensor-box">
+              <div class="sensor-icon">💡</div>
+              <div class="sensor-value"><?= $luz !== null ? $luz . ' lx' : '--' ?></div>
+              <span class="badge bg-<?= $luzColor ?>"><?= $luzStatus ?></span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="sensor-box">
+              <div class="sensor-icon">🔊</div>
+              <div class="sensor-value"><?= $ruido !== null ? $ruido . ' dB' : '--' ?></div>
+              <span class="badge bg-<?= $ruidoColor ?>"><?= $ruidoStatus ?></span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-historico w-100" data-bs-toggle="modal" data-bs-target="#historicoModal<?= $disp['id'] ?>">Ver Histórico</button>
       </div>
+    </div>
   </div>
 
-  <script>
-  const labels<?= $disp['id'] ?> = <?= json_encode($labels) ?>;
-  const tempData<?= $disp['id'] ?> = <?= json_encode($temp) ?>;
-  const umidData<?= $disp['id'] ?> = <?= json_encode($umid) ?>;
-  const luzData<?= $disp['id'] ?> = <?= json_encode($luz) ?>;
-  const ruidoData<?= $disp['id'] ?> = <?= json_encode($ruido) ?>;
-
-  if (labels<?= $disp['id'] ?>.length > 0) {
-      const opts = { responsive: true, maintainAspectRatio: true, tension: 0.3 };
-      new Chart(document.getElementById('temp<?= $disp['id'] ?>'), {
-          type: 'line',
-          data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Temperatura (°C)', data: tempData<?= $disp['id'] ?>, borderColor: 'red', fill: false }] },
-          options: opts
-      });
-      new Chart(document.getElementById('umid<?= $disp['id'] ?>'), {
-          type: 'line',
-          data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Umidade (%)', data: umidData<?= $disp['id'] ?>, borderColor: 'blue', fill: false }] },
-          options: opts
-      });
-      new Chart(document.getElementById('luz<?= $disp['id'] ?>'), {
-          type: 'line',
-          data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Luz (lx)', data: luzData<?= $disp['id'] ?>, borderColor: 'orange', fill: false }] },
-          options: opts
-      });
-      new Chart(document.getElementById('ruido<?= $disp['id'] ?>'), {
-          type: 'line',
-          data: { labels: labels<?= $disp['id'] ?>, datasets: [{ label: 'Ruído (dB)', data: ruidoData<?= $disp['id'] ?>, borderColor: 'green', fill: false }] },
-          options: opts
-      });
-  }
-  </script>
+  <!-- MODAL HISTÓRICO -->
+  <div class="modal fade" id="historicoModal<?= $disp['id'] ?>" tabindex="-1" aria-labelledby="historicoModalLabel<?= $disp['id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="historicoModalLabel<?= $disp['id'] ?>">Histórico de Dados - <?= htmlspecialchars($disp['nome']) ?></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <?php if (empty($historico)): ?>
+            <p class="text-muted text-center mb-0">Nenhuma medição anterior registrada.</p>
+          <?php else: ?>
+            <table class="table table-striped table-hover align-middle text-center">
+              <thead class="table-success">
+                <tr>
+                  <th>Data</th>
+                  <th>Temperatura</th>
+                  <th>Umidade</th>
+                  <th>Luz</th>
+                  <th>Ruído</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($historico as $h): ?>
+                  <tr>
+                    <td><?= date('d/m/Y H:i', strtotime($h['data_registro'])) ?></td>
+                    <td><?= htmlspecialchars($h['temperatura']) ?>°C</td>
+                    <td><?= htmlspecialchars($h['umidade']) ?>%</td>
+                    <td><?= htmlspecialchars($h['luz']) ?> lx</td>
+                    <td><?= htmlspecialchars($h['ruido']) ?> dB</td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
   <?php endforeach; ?>
   </div>
 </main>
 
-<!-- FOOTER -->
 <footer>
   <p>© 2024 <span>SAFELAB</span>. Todos os direitos reservados.</p>
-  <a href="public/login.php">Login do Administrador</a>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
