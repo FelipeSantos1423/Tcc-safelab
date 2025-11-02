@@ -50,7 +50,7 @@
         footer {
   text-align: center;
   padding: 12px;
-  background-color: #0d1a17;
+  background-color: #101c22;
   color: #aaa;
   font-size: 0.9rem;
   margin-top: 2rem;
@@ -62,6 +62,10 @@ footer span { color: #00e878; }
 .modal-header {
   background-color: #00e878;
   color: white;
+}
+p{
+    text-align: center;
+    justify-content: center;
 }
     </style>
 </head>
@@ -118,6 +122,24 @@ footer span { color: #00e878; }
 </div>
 </section>
 
+<section
+  class="flex flex-col items-center justify-center gap-10 px-4 py-10 text-center @container"
+  id="about">
+  <div class="flex flex-col items-center gap-4 max-w-[720px]">
+    <h1
+      class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] text-[#111815] dark:text-white">
+      Sobre o Nosso Projeto
+    </h1>
+    <p
+      class="text-base font-normal leading-normal text-[#608a7b] dark:text-[#a0c2b8]">
+      Este projeto tem como objetivo fornecer uma plataforma fácil de usar para
+      monitorar dados de sensores de dispositivos ESP32 e Arduino. Aproveitamos
+      o poder desses microcontroladores para coletar dados em tempo real e
+      apresentá-los em um painel intuitivo e visualmente atraente.
+    </p>
+  </div>
+</section>
+
 <section class="px-4 py-10" id="sobre">
 <div class="flex flex-col gap-10">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -146,12 +168,6 @@ footer span { color: #00e878; }
 </div>
 </section>
 
-<section class="flex flex-col gap-10 px-4 py-10 @container" id="about">
-<div class="flex flex-col gap-4">
-<h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px] text-[#111815] dark:text-white"> Sobre o Nosso Projeto </h1>
-<p class="text-base font-normal leading-normal max-w-[720px] text-[#608a7b] dark:text-[#a0c2b8]"> Este projeto tem como objetivo fornecer uma plataforma fácil de usar para monitorar dados de sensores de dispositivos ESP32 e Arduino. Aproveitamos o poder desses microcontroladores para coletar dados em tempo real e apresentá-los em um painel intuitivo e visualmente atraente. </p>
-</div>
-</section>
 </main>
 
 <footer>
