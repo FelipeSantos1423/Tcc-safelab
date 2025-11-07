@@ -65,7 +65,7 @@ body {
 main {
   padding: 2rem 1rem;
 }
-h2 {
+h1 {
   font-weight: 700;
   color: #0d1a17;
   text-align: center;
@@ -164,8 +164,8 @@ footer span { color: #00e878; }
 
 <!-- CONTEÚDO -->
 <main class="container">
-  <h2>Monitoramento em Tempo Real</h2>
-
+  <h1>Monitoramento em Tempo Real</h1>
+<br>
   <div class="row g-4">
   <?php foreach ($dispositivos as $disp): 
       $leituras = $leituraDAO->listarPorDispositivo($disp['id'], 1);
@@ -270,7 +270,7 @@ footer span { color: #00e878; }
 </main>
 
 <footer>
-  <p>© 2024 <span>SAFELAB</span>. Todos os direitos reservados.</p>
+  <p>© 2025 <span>SAFELAB</span>. Todos os direitos reservados.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

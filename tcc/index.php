@@ -124,7 +124,7 @@ p{
 
 <section
   class="flex flex-col items-center justify-center gap-10 px-4 py-10 text-center @container"
-  id="about">
+  id="sobre">
   <div class="flex flex-col items-center gap-4 max-w-[720px]">
     <h1
       class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] text-[#111815] dark:text-white">
@@ -132,37 +132,105 @@ p{
     </h1>
     <p
       class="text-base font-normal leading-normal text-[#608a7b] dark:text-[#a0c2b8]">
-      Este projeto tem como objetivo fornecer uma plataforma fácil de usar para
-      monitorar dados de sensores de dispositivos ESP32 e Arduino. Aproveitamos
-      o poder desses microcontroladores para coletar dados em tempo real e
-      apresentá-los em um painel intuitivo e visualmente atraente.
+      O sistema tem como objetivo monitorar as condições ambientais dos laboratórios de informática, garantindo um ambiente mais confortável, seguro e adequado à saúde dos usuários, por meio da medição de temperatura, umidade, luminosidade e ruídos.
     </p>
   </div>
 </section>
 
-<section class="px-4 py-10" id="sobre">
+<section id="parametros" class="px-4 py-14 bg-[#f6f7f8] dark:bg-[#101c22]">
+  <div class="max-w-5xl mx-auto flex flex-col items-center text-center gap-10">
+    <h2 class="text-3xl font-bold text-[#111815] dark:text-white">
+      Parâmetros Ideais de Monitoramento
+    </h2>
+    <p class="text-base text-[#608a7b] dark:text-[#a0c2b8] max-w-2xl">
+      Estes são os valores recomendados para garantir o conforto e a segurança nos laboratórios de informática, preservando tanto o bem-estar dos usuários quanto a integridade dos equipamentos.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 w-full">
+      
+      <!-- Temperatura -->
+      <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26] shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div class="p-3 rounded-full bg-primary/10 text-primary mb-3">
+          <span class="material-symbols-outlined text-3xl">device_thermostat</span>
+        </div>
+        <h3 class="text-lg font-semibold text-[#111815] dark:text-white mb-1">Temperatura</h3>
+        <p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">
+          <b>22 °C a 26 °C</b><br>
+          Faixa recomendada para conforto térmico em ambientes com equipamentos eletrônicos.
+        </p>
+      </div>
+
+      <!-- Umidade -->
+      <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26] shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div class="p-3 rounded-full bg-primary/10 text-primary mb-3">
+          <span class="material-symbols-outlined text-3xl">water_drop</span>
+        </div>
+        <h3 class="text-lg font-semibold text-[#111815] dark:text-white mb-1">Umidade</h3>
+        <p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">
+          <b>40% a 60%</b><br>
+          Abaixo de 40% o ar fica seco; acima de 60% aumenta o risco de mofo e oxidação.
+        </p>
+      </div>
+
+      <!-- Luminosidade -->
+      <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26] shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div class="p-3 rounded-full bg-primary/10 text-primary mb-3">
+          <span class="material-symbols-outlined text-3xl">light_mode</span>
+        </div>
+        <h3 class="text-lg font-semibold text-[#111815] dark:text-white mb-1">Luminosidade</h3>
+        <p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">
+          <b>300 a 500 lux</b><br>
+          Ideal para leitura e trabalho em frente a telas, evitando fadiga e desconforto visual.
+        </p>
+      </div>
+
+      <!-- Ruído -->
+      <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26] shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div class="p-3 rounded-full bg-primary/10 text-primary mb-3">
+          <span class="material-symbols-outlined text-3xl">volume_up</span>
+        </div>
+        <h3 class="text-lg font-semibold text-[#111815] dark:text-white mb-1">Ruído</h3>
+        <p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">
+          <b>Até 55 dB</b><br>
+          Níveis acima podem causar desconforto e dificultar a concentração.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="px-4 py-10" id="#">
+  <!-- título centralizado (apenas ajuste estrutural) -->
+  <div class="flex flex-col items-center gap-4 max-w-[720px] mx-auto text-center">
+    <h1 class="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] text-[#111815] dark:text-white">
+      Como Funciona o Sistema?
+    </h1>
+    <br>
+  </div>
 <div class="flex flex-col gap-10">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26]">
 <div class="p-3 rounded-full bg-primary/10 text-primary mb-4">
 <span class="material-symbols-outlined text-3xl">sensors</span>
 </div>
-<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-2">Múltiplos Sensores</h3>
-<p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">Suporte para uma variedade de sensores, incluindo temperatura, umidade, luminosidade e som, permitindo uma coleta de dados abrangente.</p>
+<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-2">Coleta de Dados</h3>
+<p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">O sistema utiliza uma rede de sensores conectados ao microcontrolador ESP32 para coletar informações em tempo real sobre temperatura, umidade, luminosidade e ruído, garantindo uma leitura precisa das condições laboratório de informática.</p>
 </div>
 <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26]">
 <div class="p-3 rounded-full bg-primary/10 text-primary mb-4">
 <span class="material-symbols-outlined text-3xl">database</span>
 </div>
-<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-2">Armazenamento de Dados</h3>
-<p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">Os dados coletados são armazenados de forma segura em um banco de dados, permitindo análises históricas e geração de relatórios detalhados.</p>
+<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-2">Processamento e Envio</h3>
+<p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">Os dados coletados são processados pelo ESP32 e enviados via conexão Wi-Fi para um servidor, onde são armazenados em um banco de dados seguro e organizados para consultas e análises posteriores do histórico de coleta.</p>
 </div>
 <div class="flex flex-col items-center text-center p-6 rounded-lg border border-[#dbe6e2] dark:border-[#2a3f38] bg-white dark:bg-[#1a2e26]">
 <div class="p-3 rounded-full bg-primary/10 text-primary mb-4">
 <span class="material-symbols-outlined text-3xl">show_chart</span>
 </div>
-<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-2">Visualização Intuitiva</h3>
-<p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">Uma interface web amigável apresenta os dados em gráficos e dashboards interativos, facilitando a interpretação e o monitoramento.</p>
+<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-2">Monitoramento e Alertas</h3>
+<p class="text-sm text-[#608a7b] dark:text-[#a0c2b8]">Os dados são exibidos em um site com a interface intuitiva, que apresenta cada parâmetro com status visuais (como 30ºC - “Calor 🔥” para temperatura ou 70% - “Úmido 💧” para umidade), facilitando o acompanhamento das condições do laboratório de forma simples e prática.</p>
 </div>
 </div>
 </div>
@@ -171,7 +239,7 @@ p{
 </main>
 
 <footer>
-  <p>© 2024 <span>SAFELAB</span>. Todos os direitos reservados.</p>
+  <p>© 2025 <span>SAFELAB</span>. Todos os direitos reservados.</p>
 <a class="text-xs text-gray-500 dark:text-gray-400 hover:text-primary mt-2 inline-block" href="public/login.php">Login do Administrador</a>
 </footer>
 </div>
