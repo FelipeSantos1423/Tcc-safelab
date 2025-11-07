@@ -90,5 +90,5 @@ void loop() {
 
   http.end();
 
-  delay(10000); // intervalo 10s (ou altere)
+  delay(60000); // intervalo 10s (ou altere)
 }
