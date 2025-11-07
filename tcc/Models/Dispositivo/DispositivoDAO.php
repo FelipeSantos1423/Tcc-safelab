@@ -53,12 +53,19 @@ class DispositivoDAO {
         return $stmt->execute();
     }
 
-    public function excluir($id) {
-        $query = "DELETE FROM tbl_dispositivos WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
+   public function excluir($id) {
+    // Primeiro, exclui as leituras associadas
+    $queryLeituras = "DELETE FROM tbl_leituras WHERE tbl_dispositivos_id = :id";
+    $stmtLeituras = $this->conn->prepare($queryLeituras);
+    $stmtLeituras->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmtLeituras->execute();
+
+    // Depois, exclui o dispositivo
+    $query = "DELETE FROM tbl_dispositivos WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
 
     public function buscarPorCodigo($codigoEsp) {
     try {
