@@ -64,7 +64,7 @@ void loop() {
   float ruido = readNoiseRms(); // valor relativo
 
   // ID do dispositivo (preencha com o id que está no banco)
-  int dispositivo_id = 1;
+  int dispositivo_id = 7;
 
   // monta JSON
   String json = "{";
