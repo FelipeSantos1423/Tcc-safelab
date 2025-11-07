@@ -8,26 +8,30 @@ $dispositivos = $dispositivoDAO->listarTodos();
 
 // ===== INTERPRETAÇÃO =====
 function interpretarTemperatura($t) {
-    if ($t === null) return ['Sem dados', 'secondary'];
-    if ($t < 18) return ['Frio ❄️', 'info'];
-    if ($t <= 27) return ['Agradável 🌤️', 'success'];
-    return ['Calor 🔥', 'danger'];
+    if ($t === null) return ['Sem dados'];
+    if ($t < 22) return ['Frio ❄️'];
+    if ($t <= 26) return ['Confortável 🌤️'];
+    return ['Calor ☀️'];
 }
+
 function interpretarUmidade($u) {
-    if ($u === null) return ['Sem dados', 'secondary'];
-    if ($u < 40) return ['Seco 💨', 'info'];
-    if ($u <= 70) return ['Confortável 💧', 'success'];
-    return ['Úmido 💦', 'warning'];
+    if ($u === null) return ['Sem dados'];
+    if ($u < 40) return ['Ar Seco 💨'];
+    if ($u <= 60) return ['Ideal 🌫️'];
+    return ['Alta Umidade 💧'];
 }
+
 function interpretarLuz($l) {
-    if ($l === null) return ['Sem dados', 'secondary'];
-    return $l < 100 ? ['Apagada 🌙', 'dark'] : ['Acesa 💡', 'warning'];
+    if ($l === null) return ['Sem dados'];
+    if ($l < 300) return ['Baixa Luminosidade 🌙'];
+    if ($l <= 500) return ['Ideal 💡'];
+    return ['Forte 🔆'];
 }
+
 function interpretarRuido($r) {
-    if ($r === null) return ['Sem dados', 'secondary'];
-    if ($r < 40) return ['Silencioso 🤫', 'info'];
-    if ($r <= 70) return ['Agradável 🔈', 'success'];
-    return ['Alto 🔊', 'danger'];
+    if ($r === null) return ['Sem dados'];
+    if ($r <= 55) return ['Confortável 🔈'];
+    return ['Alto 🔊'];
 }
 ?>
 
@@ -107,11 +111,6 @@ h1 {
   font-size: 0.9rem;
   color: #555;
 }
-.badge {
-  font-size: 0.8rem;
-  padding: 6px 8px;
-  border-radius: 8px;
-}
 .btn-historico {
   background-color: #0d1a17;
   color: #fff;
@@ -139,52 +138,53 @@ footer span { color: #00e878; }
   background-color: #00e878;
   color: white;
 }
+.legenda {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 2rem;
+}
 </style>
 </head>
 
 <body>
 <header class="sticky top-0 z-20 bg-[#0d1a17]/95 backdrop-blur-sm border-b border-gray-700">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <!-- Logo -->
-          <div class="flex items-center space-x-4">
-            <a class="flex items-center space-x-2" href="../index.php">
-              <img src="../images/WhatsApp_Image_2025-10-23_at_21.19.41-removebg-preview (1).png" width="200px" height="200px" alt="SAFELAB Logo"> 
-            </a>
-          </div>
-
-          <!-- Botão voltar -->
-          <a href="../index.php" 
-             class="text-sm font-medium text-gray-300 hover:text-primary transition-colors flex items-center">
-             ← Voltar
-          </a>
-        </div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center space-x-4">
+        <a class="flex items-center space-x-2" href="../index.php">
+          <img src="../images/WhatsApp_Image_2025-10-23_at_21.19.41-removebg-preview (1).png" width="200px" alt="SAFELAB Logo"> 
+        </a>
       </div>
-    </header>
+      <a href="../index.php" class="text-sm font-medium text-gray-300 hover:text-primary transition-colors flex items-center">
+        ← Voltar
+      </a>
+    </div>
+  </div>
+</header>
 
 <!-- CONTEÚDO -->
 <main class="container">
   <h1>Monitoramento em Tempo Real</h1>
-<br>
+  <br>
   <div class="row g-4">
   <?php foreach ($dispositivos as $disp): 
       $leituras = $leituraDAO->listarPorDispositivo($disp['id'], 1);
       if (!empty($leituras)) {
           $l = $leituras[0];
-          $temp = (float) $l['temperatura'];
-          $umid = (float) $l['umidade'];
-          $luz = (float) $l['luz'];
-          $ruido = (float) $l['ruido'];
+          $temp = number_format((float) $l['temperatura'], 2);
+          $umid = number_format((float) $l['umidade'], 2);
+          $luz = number_format((float) $l['luz'], 2);
+          $ruido = number_format((float) $l['ruido'], 2);
       } else {
           $temp = $umid = $luz = $ruido = null;
       }
 
-      [$tempStatus, $tempColor] = interpretarTemperatura($temp);
-      [$umidStatus, $umidColor] = interpretarUmidade($umid);
-      [$luzStatus, $luzColor] = interpretarLuz($luz);
-      [$ruidoStatus, $ruidoColor] = interpretarRuido($ruido);
+      [$tempStatus] = interpretarTemperatura($temp);
+      [$umidStatus] = interpretarUmidade($umid);
+      [$luzStatus] = interpretarLuz($luz);
+      [$ruidoStatus] = interpretarRuido($ruido);
 
-      // Histórico (últimas 5 medições)
       $historico = $leituraDAO->listarPorDispositivo($disp['id'], 5);
   ?>
   <div class="col-md-6 col-lg-4">
@@ -194,30 +194,30 @@ footer span { color: #00e878; }
         <div class="row g-2">
           <div class="col-6">
             <div class="sensor-box">
-              <div class="sensor-icon">🔥</div>
+              <div class="sensor-icon">🌡️</div>
               <div class="sensor-value"><?= $temp !== null ? $temp . '°C' : '--' ?></div>
-              <span class="badge bg-<?= $tempColor ?>"><?= $tempStatus ?></span>
+              <div><?= $tempStatus ?></div>
             </div>
           </div>
           <div class="col-6">
             <div class="sensor-box">
               <div class="sensor-icon">💧</div>
               <div class="sensor-value"><?= $umid !== null ? $umid . '%' : '--' ?></div>
-              <span class="badge bg-<?= $umidColor ?>"><?= $umidStatus ?></span>
+              <div><?= $umidStatus ?></div>
             </div>
           </div>
           <div class="col-6">
             <div class="sensor-box">
               <div class="sensor-icon">💡</div>
               <div class="sensor-value"><?= $luz !== null ? $luz . ' lx' : '--' ?></div>
-              <span class="badge bg-<?= $luzColor ?>"><?= $luzStatus ?></span>
+              <div><?= $luzStatus ?></div>
             </div>
           </div>
           <div class="col-6">
             <div class="sensor-box">
               <div class="sensor-icon">🔊</div>
               <div class="sensor-value"><?= $ruido !== null ? $ruido . ' dB' : '--' ?></div>
-              <span class="badge bg-<?= $ruidoColor ?>"><?= $ruidoStatus ?></span>
+              <div><?= $ruidoStatus ?></div>
             </div>
           </div>
         </div>
@@ -231,7 +231,7 @@ footer span { color: #00e878; }
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="historicoModalLabel<?= $disp['id'] ?>">Histórico de Dados - <?= htmlspecialchars($disp['nome']) ?></h5>
+          <h5 class="modal-title">Histórico de Dados - <?= htmlspecialchars($disp['nome']) ?></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
@@ -239,7 +239,7 @@ footer span { color: #00e878; }
             <p class="text-muted text-center mb-0">Nenhuma medição anterior registrada.</p>
           <?php else: ?>
             <table class="table table-striped table-hover align-middle text-center">
-              <thead class="table-success">
+              <thead class="table-light">
                 <tr>
                   <th>Data</th>
                   <th>Temperatura</th>
@@ -252,10 +252,10 @@ footer span { color: #00e878; }
                 <?php foreach ($historico as $h): ?>
                   <tr>
                     <td><?= date('d/m/Y H:i', strtotime($h['data_registro'])) ?></td>
-                    <td><?= htmlspecialchars($h['temperatura']) ?>°C</td>
-                    <td><?= htmlspecialchars($h['umidade']) ?>%</td>
-                    <td><?= htmlspecialchars($h['luz']) ?> lx</td>
-                    <td><?= htmlspecialchars($h['ruido']) ?> dB</td>
+                    <td><?= number_format($h['temperatura'], 2) ?>°C</td>
+                    <td><?= number_format($h['umidade'], 2) ?>%</td>
+                    <td><?= number_format($h['luz'], 2) ?> lx</td>
+                    <td><?= number_format($h['ruido'], 2) ?> dB</td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -266,6 +266,13 @@ footer span { color: #00e878; }
     </div>
   </div>
   <?php endforeach; ?>
+  </div>
+
+  <div class="legenda">
+    <p><strong>Legenda:</strong>  
+      🌡️ Temperatura | 💧 Umidade | 💡 Luminosidade | 🔊 Ruído  
+      <br>Os valores exibidos indicam a última medição registrada para cada parâmetro.
+    </p>
   </div>
 </main>
 
