@@ -30,8 +30,8 @@ if (!$data) {
 $codigoEsp = $data['codigo_esp'] ?? null;
 $temperatura = $data['temperatura'] ?? null;
 $umidade = $data['umidade'] ?? null;
-$luz = $data['luz'] ?? null;
-$ruido = $data['ruido'] ?? null;
+$luz = $data['luz'] ?? 00;
+$ruido = $data['ruido'] ?? 00;
 
 if (!$codigoEsp || $temperatura === null || $umidade === null || $luz === null || $ruido === null) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Dados incompletos.']);
