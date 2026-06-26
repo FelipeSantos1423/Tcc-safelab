@@ -7,7 +7,7 @@
 const char* ssid = "Maria Fernanda";
 const char* password = "casa31445519";
 const char* serverName = "http://192.168.5.8/tcc-safelab/tcc/API/api_recebe_leitura.php";
-const char* codigo_esp = "ESP001";
+const char* vitalab_id = "1"; 
 
 // ==================== PINOS ====================
 const int dhtPin = 2;
@@ -75,9 +75,9 @@ void loop() {
     http.addHeader("Content-Type", "application/json");
 
     StaticJsonDocument<200> doc;
-    doc["codigo_esp"] = codigo_esp;
-    doc["temperatura"] = temp;
-    doc["umidade"] = umid;
+    doc["vitalab_id"] = vitalab_id; 
+    doc["temperature"] = temp; 
+    doc["humidity"] = umid; 
 
     String jsonStr;
     serializeJson(doc, jsonStr);
@@ -104,4 +104,4 @@ void loop() {
   }
 
   delay(coletaIntervalo);
-}
+} 
