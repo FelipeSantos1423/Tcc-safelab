@@ -4,9 +4,9 @@
 #include <DHT.h>
 
 // ==================== CONFIGURAÇÕES WI-FI ====================
-const char* ssid = "Maria Fernanda";
-const char* password = "casa31445519";
-const char* serverName = "http://192.168.5.8/tcc-safelab/tcc/API/api_recebe_leitura.php";
+const char* ssid = "Nome_Rede";
+const char* password = "Senha_rede";
+const char* serverName = "http://127.0.0.1:800/api/measurement"; //trocar o ip
 const char* vitalab_id = "1"; 
 
 // ==================== PINOS ====================
